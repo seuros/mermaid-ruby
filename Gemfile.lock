@@ -1,0 +1,49 @@
+PATH
+  remote: .
+  specs:
+    mermaid (0.0.1)
+      dry-struct (~> 1.6)
+      dry-types (~> 1.7)
+      zeitwerk
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    bigdecimal (3.1.6)
+    concurrent-ruby (1.2.3)
+    dry-core (1.0.1)
+      concurrent-ruby (~> 1.0)
+      zeitwerk (~> 2.6)
+    dry-inflector (1.0.0)
+    dry-logic (1.5.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 1.0, < 2)
+      zeitwerk (~> 2.6)
+    dry-struct (1.6.0)
+      dry-core (~> 1.0, < 2)
+      dry-types (>= 1.7, < 2)
+      ice_nine (~> 0.11)
+      zeitwerk (~> 2.6)
+    dry-types (1.7.2)
+      bigdecimal (~> 3.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 1.0)
+      dry-inflector (~> 1.0)
+      dry-logic (~> 1.4)
+      zeitwerk (~> 2.6)
+    ice_nine (0.11.2)
+    minitest (5.21.2)
+    rake (13.1.0)
+    zeitwerk (2.6.12)
+
+PLATFORMS
+  arm64-darwin-23
+  ruby
+
+DEPENDENCIES
+  mermaid!
+  minitest (~> 5.16)
+  rake (~> 13.0)
+
+BUNDLED WITH
+   2.5.4
