@@ -3,7 +3,7 @@
 module Mermaid
   class SequenceDiagram < BaseDiagram
     def initialize(*)
-      raise NotImplementedError, "SequenceDiagram is not implemented yet"
+      raise NotImplementedError, 'SequenceDiagram is not implemented yet'
     end
   end
 end

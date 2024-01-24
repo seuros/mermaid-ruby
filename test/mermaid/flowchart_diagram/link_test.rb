@@ -4,7 +4,6 @@ require 'test_helper'
 
 module Mermaid
   class FlowchartDiagram::LinkTest < DiagramTest
-
     def test_representation
       link = FlowchartDiagram::Link.new(from: 'A', to: 'B', label: 'Text', style: 'arrow_head')
       assert_equal '-->|Text|', link.representation

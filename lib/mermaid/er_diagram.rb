@@ -3,7 +3,7 @@
 module Mermaid
   class ERDiagram < BaseDiagram
     def initialize(*)
-      raise NotImplementedError, "ERDiagram is not implemented yet"
+      raise NotImplementedError, 'ERDiagram is not implemented yet'
     end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Mermaid
   module FlowchartDiagram::Parser
     def self.included(base)
@@ -12,18 +14,22 @@ module Mermaid
         links = []
         lines.each do |line|
           if line =~ /^(\S+)(?:\[(.*)\]|\((.*)\)|\{(.*)\})/
-            id = $1
-            label = $2 || $3 || $4
-            shape = $2 ? 'box' : $3 ? 'round' : 'decision'
-            nodes << Node.new(id: id, label: label, shape: shape)
+            id = ::Regexp.last_match(1)
+            label = ::Regexp.last_match(2) || ::Regexp.last_match(3) || ::Regexp.last_match(4)
+            shape = if ::Regexp.last_match(2)
+                      'box'
+                    else
+                      ::Regexp.last_match(3) ? 'round' : 'decision'
+                    end
+            nodes << Node.new(id:, label:, shape:)
           elsif line =~ /^(\S+)\s+-->(?:\|(.*)\|\s+)?(\S+)/
-            from = $1
-            label = $2
-            to = $3
-            links << Link.new(from: from, to: to, label: label)
+            from = ::Regexp.last_match(1)
+            label = ::Regexp.last_match(2)
+            to = ::Regexp.last_match(3)
+            links << Link.new(from:, to:, label:)
           end
         end
-        new(id: 'parsed', direction: direction, nodes: nodes, links: links)
+        new(id: 'parsed', direction:, nodes:, links:)
       end
     end
   end

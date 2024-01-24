@@ -2,9 +2,8 @@
 
 module Mermaid
   class UserJourneyDiagram < BaseDiagram
-
     def initialize(*)
-      raise NotImplementedError, "UserJourneyDiagram is not implemented yet"
+      raise NotImplementedError, 'UserJourneyDiagram is not implemented yet'
     end
   end
 end

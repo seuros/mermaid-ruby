@@ -3,8 +3,7 @@
 module Mermaid
   class ClassDiagram < BaseDiagram
     def initialize(*)
-      raise NotImplementedError, "ClassDiagram is not implemented yet"
+      raise NotImplementedError, 'ClassDiagram is not implemented yet'
     end
-
   end
 end

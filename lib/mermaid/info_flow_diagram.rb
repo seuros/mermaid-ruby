@@ -3,7 +3,7 @@
 module Mermaid
   class InfoFlowDiagram < BaseDiagram
     def initialize(*)
-      raise NotImplementedError, "InfoFlowDiagram is not implemented yet"
+      raise NotImplementedError, 'InfoFlowDiagram is not implemented yet'
     end
   end
 end

@@ -13,5 +13,4 @@ loader.inflector.inflect(
 loader.setup
 
 module Mermaid
-
 end

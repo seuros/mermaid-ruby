@@ -4,13 +4,12 @@ require 'test_helper'
 
 module Mermaid
   class FlowchartDiagramTest < DiagramTest
-
     EXPECTED_RESULT = <<~RESULT
-flowchart LR
-  A[Hard] -->|Text| B(Round)
-  B --> C{Decision}
-  C -->|One| D[Result 1]
-  C -->|Two| E[Result 2]
+      flowchart LR
+        A[Hard] -->|Text| B(Round)
+        B --> C{Decision}
+        C -->|One| D[Result 1]
+        C -->|Two| E[Result 2]
     RESULT
 
     def test_generate
@@ -22,7 +21,7 @@ flowchart LR
           { id: 'B', label: 'Round', shape: 'round' },
           { id: 'C', label: 'Decision', shape: 'rhombus' },
           { id: 'D', label: 'Result 1' },
-          { id: 'E', label: 'Result 2' },
+          { id: 'E', label: 'Result 2' }
         ],
         links: [
           { from: 'A', to: 'B', label: 'Text' },
@@ -34,7 +33,6 @@ flowchart LR
 
       assert_equal EXPECTED_RESULT, diagram.to_s
     end
-
 
     # def test_parser
     #

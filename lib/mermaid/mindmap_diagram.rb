@@ -3,7 +3,7 @@
 module Mermaid
   class MindmapDiagram < BaseDiagram
     def initialize(*)
-      raise NotImplementedError, "MindmapDiagram is not implemented yet"
+      raise NotImplementedError, 'MindmapDiagram is not implemented yet'
     end
   end
 end

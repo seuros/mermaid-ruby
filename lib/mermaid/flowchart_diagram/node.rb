@@ -2,23 +2,24 @@
 
 module Mermaid
   class FlowchartDiagram::Node < Dry::Struct
-    SHAPES = %w(default round stadium subroutine database circle double_circle asymmetric rhombus hexagon parallelogram parallelogram_alt trapezoid trapezoid_alt).freeze
+    SHAPES = %w[default round stadium subroutine database circle double_circle asymmetric rhombus hexagon parallelogram
+                parallelogram_alt trapezoid trapezoid_alt].freeze
 
     SHAPE_FORMATS = {
-      'default' => "%s[%s]", # A[Hard
-      'round' => "%s(%s)", # A(Hard)
-      'stadium' => "%s([%s])", # A([Hard])
-      'subroutine' => "%s[[%s]]", # A([[Hard]])
-      'database' => "%s[(%s)]", # A[(Hard)]
-      'circle' => "%s((%s))", # A((Hard))
-      'double_circle' => "%s(((%s)))", # A(((Hard)))
-      'asymmetric' => "%s>%s]", # A>Hard]
-      'rhombus' => "%s{%s}", # A{Hard}
-      'hexagon' => "%s{{%s}}", # A{{Hard}}
-      'parallelogram' => "%s[/%s/]", # A[/Hard/]
-      'parallelogram_alt' => "%s[\\%s\\]", # A[\Hard\]
-      'trapezoid' => "%s[/%s\\]", # A[/Hard\]
-      'trapezoid_alt' => "%s[\\%s/]" # A[\Hard/]
+      'default' => '%s[%s]', # A[Hard
+      'round' => '%s(%s)', # A(Hard)
+      'stadium' => '%s([%s])', # A([Hard])
+      'subroutine' => '%s[[%s]]', # A([[Hard]])
+      'database' => '%s[(%s)]', # A[(Hard)]
+      'circle' => '%s((%s))', # A((Hard))
+      'double_circle' => '%s(((%s)))', # A(((Hard)))
+      'asymmetric' => '%s>%s]', # A>Hard]
+      'rhombus' => '%s{%s}', # A{Hard}
+      'hexagon' => '%s{{%s}}', # A{{Hard}}
+      'parallelogram' => '%s[/%s/]', # A[/Hard/]
+      'parallelogram_alt' => '%s[\\%s\\]', # A[\Hard\]
+      'trapezoid' => '%s[/%s\\]', # A[/Hard\]
+      'trapezoid_alt' => '%s[\\%s/]' # A[\Hard/]
     }.freeze
 
     attribute :id, FlowchartDiagram::Types::String

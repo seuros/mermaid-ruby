@@ -11,8 +11,7 @@ module Mermaid
                                                           'text_link',
                                                           'dotted',
                                                           'thick',
-                                                          'invisible'
-                                                    )
+                                                          'invisible')
 
     def representation
       case type
@@ -30,17 +29,15 @@ module Mermaid
       ## else return it without quotes
       if label.nil?
         ''
+      elsif label.ascii_only?
+        label
       else
-        if label.ascii_only?
-          label
-        else
-          "\"#{label}\""
-        end
+        "\"#{label}\""
       end
     end
 
     def to_s
-       [from, representation, to].join
+      [from, representation, to].join
     end
   end
 end

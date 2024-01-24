@@ -2,8 +2,8 @@
 
 module Mermaid
   class StateDiagram < BaseDiagram
-    def initialize(*)
-      raise NotImplementedError, "StateDiagram is not implemented yet"
-    end
+    attribute :id, Types::String
+    attribute :states, Types::Array.of(State)
+    attribute :transitions, Types::Array.of(Transition)
   end
 end

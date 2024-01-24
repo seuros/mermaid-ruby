@@ -3,7 +3,7 @@
 module Mermaid
   class GanttDiagram < BaseDiagram
     def initialize(*)
-      raise NotImplementedError, "GanttDiagram is not implemented yet"
+      raise NotImplementedError, 'GanttDiagram is not implemented yet'
     end
   end
 end
