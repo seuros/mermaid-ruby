@@ -1,4 +1,9 @@
 {
-  "release-type": "ruby",
-  "package-name": "mermaid"
+  "packages": {
+    ".": {
+      "release-type": "ruby",
+      "package-name": "mermaid",
+      "bump-patch-for-minor-pre-major": true
+    }
+  }
 }
