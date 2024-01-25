@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Mermaid
   class StateDiagram::TransitionTest < DiagramTest
     def test_transition_with_label

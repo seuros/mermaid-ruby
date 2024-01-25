@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Mermaid
   class StateDiagram::StateTest < DiagramTest
     def test_state_with_label
