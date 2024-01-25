@@ -11,7 +11,7 @@ module Mermaid
     def generate
       diagram = "#{NAME}\n"
       transitions.each do |transition|
-        diagram += "  #{transition.to_s}\n"
+        diagram += "  #{transition}\n"
       end
       diagram
     end

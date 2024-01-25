@@ -21,6 +21,7 @@ module Mermaid
         to
       end
     end
+
     def to_s
       if label
         "#{from_representation} --> #{to_representation} : #{label}"
