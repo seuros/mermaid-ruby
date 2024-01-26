@@ -2,7 +2,7 @@
 
 module Mermaid
   class GanttDiagram < BaseDiagram
-    NAME = 'gantt'
+    KEYWORD = 'gantt'
 
     class Task < Dry::Struct
       attribute :name, GanttDiagram::Types::String

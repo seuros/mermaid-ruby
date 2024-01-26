@@ -2,6 +2,7 @@
 
 module Mermaid
   class SankeyDiagram < BaseDiagram
+    KEYWORD = 'sankey-beta'
     def initialize(*)
       raise NotImplementedError, 'SankeyDiagram is not implemented yet'
     end

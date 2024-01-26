@@ -2,6 +2,7 @@
 
 module Mermaid
   class RequirementDiagram < BaseDiagram
+    KEYWORD = 'requirementDiagram'
     def initialize(*)
       raise NotImplementedError, 'RequirementDiagram is not implemented yet'
     end

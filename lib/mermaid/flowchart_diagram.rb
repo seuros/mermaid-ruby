@@ -3,7 +3,7 @@
 module Mermaid
   class FlowchartDiagram < BaseDiagram
     include Parser
-    NAME = 'flowchart'
+    KEYWORD = 'flowchart'
     Direction = Types::String.default('LR').enum('LR', 'RL', 'TB', 'BT')
     attribute :id, Types::String
     attribute :direction, Direction
@@ -11,7 +11,7 @@ module Mermaid
     attribute :links, Types::Array.of(Link)
 
     def generate
-      diagram = "#{NAME} #{direction}\n"
+      diagram = "#{KEYWORD} #{direction}\n"
       labeled_nodes = Set.new
       links.each do |link|
         from_node = nodes.find { |node| node.id == link.from }

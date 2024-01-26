@@ -2,11 +2,11 @@
 
 module Mermaid
   class ClassDiagram < BaseDiagram
-    NAME = 'classDiagram'
+    KEYWORD = 'classDiagram'
     attribute :classes, ClassDiagram::Types::Array.of(Class)
 
     def generate
-      diagram = "#{NAME}\n"
+      diagram = "#{KEYWORD}\n"
       classes.each do |klass|
         diagram += "  #{klass}\n"
       end

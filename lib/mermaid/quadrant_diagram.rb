@@ -2,6 +2,7 @@
 
 module Mermaid
   class QuadrantDiagram < BaseDiagram
+    KEYWORD = 'quadrant'
     def initialize(*)
       raise NotImplementedError, 'QuadrantDiagram is not implemented yet'
     end

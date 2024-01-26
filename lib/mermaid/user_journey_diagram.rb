@@ -2,6 +2,7 @@
 
 module Mermaid
   class UserJourneyDiagram < BaseDiagram
+    KEYWORD = 'journey'
     def initialize(*)
       raise NotImplementedError, 'UserJourneyDiagram is not implemented yet'
     end

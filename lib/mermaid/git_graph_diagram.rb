@@ -2,6 +2,7 @@
 
 module Mermaid
   class GitGraphDiagram < BaseDiagram
+    KEYWORD = 'gitGraph'
     def initialize(*)
       raise NotImplementedError, 'GitGraphDiagram is not implemented yet'
     end
