@@ -17,10 +17,10 @@ module Mermaid
       def to_s
         <<~OUTPUT
           #{type} #{name} {
-              id: #{id}
-              text: #{text}
-              risk: #{risk}
-              verifymethod: #{verifymethod}
+          id: #{id}
+          text: #{text}
+          risk: #{risk}
+          verifymethod: #{verifymethod}
           }
         OUTPUT
       end

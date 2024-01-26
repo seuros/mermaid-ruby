@@ -4,7 +4,7 @@ require 'bundler/gem_tasks'
 require 'minitest/test_task'
 
 Minitest::TestTask.create
-require'rake/testtask'
+require 'rake/testtask'
 
 Rake::TestTask.new do |t|
   t.libs.push 'test'

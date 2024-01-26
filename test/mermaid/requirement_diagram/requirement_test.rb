@@ -7,14 +7,14 @@ module Mermaid
     class RequirementTest < DiagramTest
       EXPECTED_OUTPUT = <<~OUTPUT
         functionalRequirement user_defined_name {
-            id: user_defined_id
-            text: user_defined text
-            risk: high
-            verifymethod: analysis
+        id: user_defined_id
+        text: user_defined text
+        risk: high
+        verifymethod: analysis
         }
       OUTPUT
 
-      def test_requirement
+      def test_representation
         requirement = Requirement.new(
           type: 'functionalRequirement',
           name: 'user_defined_name',
