@@ -4,17 +4,6 @@ module Mermaid
   class GanttDiagram < BaseDiagram
     KEYWORD = 'gantt'
 
-    class Task < Dry::Struct
-      attribute :name, GanttDiagram::Types::String
-      attribute :start, GanttDiagram::Types::String
-      attribute :end, GanttDiagram::Types::String
-    end
-
-    class Section < Dry::Struct
-      attribute :name, GanttDiagram::Types::String
-      attribute :tasks, GanttDiagram::Types::Array.of(Task)
-    end
-
     attribute :title, GanttDiagram::Types::String
     attribute :date_format, GanttDiagram::Types::String.optional.default('YYYY-MM-DD')
     attribute :axis_format, GanttDiagram::Types::String.optional.default('%Y-%m-%d')
