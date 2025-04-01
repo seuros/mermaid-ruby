@@ -1,0 +1,15 @@
+# RBS signatures for patches applied to the 'diagram' gem's State element class
+module Diagrams
+  module Elements
+    class State < Dry::Struct
+      # Added by mermaid-ruby gem
+      # Generates the Mermaid fragment for a state definition.
+      def to_mermaid_fragment: () -> String
+
+      # Original attributes/methods (if known/needed)
+      # attr_reader id: String
+      # attr_reader label: String?
+      # ...
+    end
+  end
+end

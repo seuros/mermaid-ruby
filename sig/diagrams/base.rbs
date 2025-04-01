@@ -1,0 +1,8 @@
+# RBS signatures for patches applied to the 'diagram' gem's base class
+module Diagrams
+  class Base
+    # Added by mermaid-ruby gem
+    # Generates the Mermaid syntax representation of the diagram.
+    def to_mermaid: () -> String
+  end
+end

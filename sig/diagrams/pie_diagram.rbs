@@ -1,0 +1,14 @@
+# RBS signatures for patches applied to the 'diagram' gem's PieDiagram class
+module Diagrams
+  class PieDiagram < Base
+    # Added by mermaid-ruby gem
+    # Generates the Mermaid syntax for the pie chart.
+    def to_mermaid: () -> String
+
+    # Original methods from diagram gem (if known/needed for context)
+    # attr_reader title: String
+    # attr_reader slices: Array[Elements::Slice]
+    # def initialize: (?title: String, ?slices: Array[Elements::Slice], ?version: untyped) -> void
+    # ... other methods ...
+  end
+end

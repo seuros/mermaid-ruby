@@ -14,9 +14,8 @@ jobs:
     strategy:
       matrix:
         ruby:
-          - '3.1'
-          - '3.2'
           - '3.3'
+          - '3.4'
 
     steps:
     - uses: actions/checkout@v4
@@ -24,6 +23,12 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby }}
-        bundler-cache: true
-    - name: Run the default task
-      run: bundle exec rake
+        bundler-cache: true # Caches gems
+
+    - name: Install Google Chrome # Needed for Cuprite/Ferrum
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y google-chrome-stable
+
+    - name: Run tests # Changed name for clarity
+      run: bundle exec rake test # Ensure it runs tests, not just default rake task

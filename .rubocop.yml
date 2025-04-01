@@ -1,0 +1,29 @@
+# require: # No longer needed for these plugins
+#   - rubocop-minitest
+#   - rubocop-rake
+plugins:
+  - rubocop-performance
+  - rubocop-minitest # Moved from require
+  - rubocop-rake     # Moved from require
+AllCops:
+  TargetRubyVersion: 3.3
+  NewCops: enable
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/MethodLength:
+    Max: 20
+
+Metrics/AbcSize:
+    Max: 40
+
+Minitest/MultipleAssertions:
+  Enabled: false
+
+Gemspec/DevelopmentDependencies:
+  Enabled: false
+
+Metrics/ClassLength:
+  Exclude:
+    - 'test/**/*' # Allow longer test classes

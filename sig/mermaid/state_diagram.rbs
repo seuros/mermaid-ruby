@@ -1,0 +1,26 @@
+module Mermaid
+  class StateDiagram < BaseDiagram
+    KEYWORD: String
+
+    # Define types for attributes if not already globally available
+    # Assuming State and Transition types are defined elsewhere or inferred
+    # If State and Transition have their own RBS files, they should be referenced.
+    # Example:
+    # type state = StateDiagram::State
+    # type transition = StateDiagram::Transition
+
+    attr_reader id: String
+    attr_reader states: Array[StateDiagram::State] # Assuming State is defined
+    attr_reader transitions: Array[StateDiagram::Transition] # Assuming Transition is defined
+
+    # @deprecated Use #to_mermaid instead.
+    def generate: () -> String
+
+    # Generates the Mermaid syntax for the state diagram.
+    # @return [String]
+    def to_mermaid: () -> String
+
+    # Need RBS definitions for State and Transition classes as well
+    # in sig/mermaid/state_diagram/state.rbs and sig/mermaid/state_diagram/transition.rbs
+  end
+end

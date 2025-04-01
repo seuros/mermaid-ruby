@@ -1,0 +1,31 @@
+module Mermaid
+  # Abstract base class for all diagram types.
+  # Subclasses should inherit from this and implement required methods.
+  class BaseDiagram < ::Dry::Struct
+    # Placeholder for Dry.Types module if needed within RBS
+    module Types
+      # Define types used in attributes if necessary
+    end
+
+    # Converts the diagram's specific data to a hash.
+    # Subclasses must implement this.
+    # @raise [NotImplementedError]
+    # @return [Hash]
+    def to_hash: () -> Hash[untyped, untyped]
+
+    # Generates the Mermaid syntax representation of the diagram.
+    # Subclasses must override this method.
+    # @raise [NotImplementedError]
+    # @return [String]
+    def to_mermaid: () -> String
+
+    # Generates the Mermaid syntax representation.
+    # @deprecated Use #to_mermaid instead.
+    # @return [String]
+    def to_s: () -> String
+
+    # Potentially add `generate` if it was meant to be public,
+    # otherwise assume it's an internal detail called by `to_s`/`to_mermaid`.
+    # def generate: () -> String
+  end
+end

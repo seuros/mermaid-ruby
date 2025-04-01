@@ -1,0 +1,17 @@
+# RBS signatures for patches applied to the 'diagram' gem's Task element class
+module Diagrams
+  module Elements
+    class Task < Dry::Struct
+      # Added by mermaid-ruby gem
+      # Generates the Mermaid fragment for a Gantt task.
+      def to_mermaid_fragment: () -> String
+
+      # Original attributes/methods (if known/needed)
+      # attr_reader id: String
+      # attr_reader name: String
+      # attr_reader start_date: String
+      # attr_reader end_date: String
+      # ...
+    end
+  end
+end

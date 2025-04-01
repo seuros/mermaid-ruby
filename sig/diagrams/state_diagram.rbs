@@ -1,0 +1,18 @@
+# RBS signatures for patches applied to the 'diagram' gem's StateDiagram class
+module Diagrams
+  class StateDiagram < Base
+    # Added by mermaid-ruby gem
+    # Generates the Mermaid syntax for the state diagram.
+    def to_mermaid: () -> String
+
+    # Original methods from diagram gem (if known/needed for context)
+    # attr_reader states: Array[Elements::State]
+    # attr_reader transitions: Array[Elements::Transition]
+    # def initialize: (states: Array[Elements::State], transitions: Array[Elements::Transition], ?version: untyped) -> void
+    # ... other methods ...
+
+    # Patched private method (optional to include in RBS)
+    # private
+    # def validate_elements!: () -> void
+  end
+end
