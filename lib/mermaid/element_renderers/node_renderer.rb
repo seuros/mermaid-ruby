@@ -2,7 +2,7 @@
 
 module Mermaid
   module ElementRenderers
-    # Module containing Mermaid rendering logic for Diagrams::Elements::Node
+    # Module containing Mermaid rendering logic for Diagrams::ElementRenderers::Node
     module NodeRenderer
       # @!method to_mermaid_fragment
       #   Generates the Mermaid fragment for a flowchart node.

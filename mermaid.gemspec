@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
   spec.files = Dir.glob('{sig,lib}/**/*') + %w[CHANGELOG.md LICENSE.txt README.md Rakefile]
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'diagram', '>= 0.3.2'
+  spec.add_dependency 'diagram', '>= 0.3.3'
   spec.add_dependency 'zeitwerk'
   spec.metadata['rubygems_mfa_required'] = 'true'
   # Development Dependencies

@@ -1,0 +1,11 @@
+# Augmenting the class from the 'diagrams' gem
+module Diagrams
+  module Element
+    class ERDEntity
+      # Method added by prepending Mermaid::Element::ERDEntityRenderer
+      # Generates the Mermaid fragment for this entity.
+      # @return [String] The Mermaid syntax fragment for the entity.
+      def to_mermaid_fragment: () -> String
+    end
+  end
+end

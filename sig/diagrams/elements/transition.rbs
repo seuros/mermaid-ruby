@@ -1,8 +1,8 @@
 # RBS signatures for patches applied to the 'diagram' gem's Transition element class
 module Diagrams
-  module Elements
-    class Transition < Dry::Struct
-      # Added by mermaid-ruby gem
+  module Element
+    class Transition
+
       # Generates the Mermaid fragment for a transition.
       def to_mermaid_fragment: () -> String
 

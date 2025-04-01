@@ -1,0 +1,11 @@
+# Augmenting the class from the 'diagrams' gem
+module Diagrams
+  module Element
+    class ERDRelationship
+      # Method added by prepending Mermaid::Element::ERDRelationshipRenderer
+      # Generates the Mermaid fragment for this relationship.
+      # @return [String] The Mermaid syntax fragment for the relationship.
+      def to_mermaid_fragment: () -> String
+    end
+  end
+end

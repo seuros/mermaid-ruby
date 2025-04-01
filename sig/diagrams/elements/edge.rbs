@@ -1,8 +1,8 @@
 # RBS signatures for patches applied to the 'diagram' gem's Edge element class
 module Diagrams
-  module Elements
-    class Edge < Dry::Struct
-      # Added by mermaid-ruby gem
+  module Element
+    class Edge
+
       # Generates the Mermaid fragment for a flowchart edge.
       def to_mermaid_fragment: () -> String
 

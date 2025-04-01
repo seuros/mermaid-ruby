@@ -4,37 +4,40 @@ require 'test_helper'
 
 class GanttDiagramStringTest < UnitTest
   def test_empty_gantt
-    diagram = Diagrams::GanttDiagram.new(title: 'Empty', tasks: [])
+    diagram = Diagrams::GanttDiagram.new(title: 'Empty')
+    # No tasks to add here
+    # Expect default section even if empty
     expected = <<~MERMAID
       gantt
       title Empty
+      section Default Section
     MERMAID
     assert_equal expected.strip, diagram.to_mermaid.strip
   end
 
   def test_simple_gantt
-    tasks = [
-      Diagrams::Elements::Task.new(id: 'task1', name: 'Task One', start_date: '2024-01-01', end_date: '2024-01-05'),
-      Diagrams::Elements::Task.new(id: 'task2', name: 'Task Two', start_date: '2024-01-06', end_date: '2024-01-08')
-    ]
-    diagram = Diagrams::GanttDiagram.new(title: 'Project Plan', tasks: tasks)
+    diagram = Diagrams::GanttDiagram.new(title: 'Project Plan')
+    diagram.add_task(id: 'task1', label: 'Task One', start: '2024-01-01', duration: '5d')
+    diagram.add_task(id: 'task2', label: 'Task Two', start: '2024-01-06', duration: '3d')
+    # Expect tasks within the default section
     expected = <<~MERMAID
       gantt
       title Project Plan
-      Task One :task1, 2024-01-01, 2024-01-05
-      Task Two :task2, 2024-01-06, 2024-01-08
+      section Default Section
+      Task One :task1, 2024-01-01, 5d
+      Task Two :task2, 2024-01-06, 3d
     MERMAID
     assert_equal expected.strip, diagram.to_mermaid.strip
   end
 
   def test_gantt_without_title
-    tasks = [
-      Diagrams::Elements::Task.new(id: 'a', name: 'Task A', start_date: '2023-12-01', end_date: '2023-12-03')
-    ]
-    diagram = Diagrams::GanttDiagram.new(tasks: tasks) # No title
+    diagram = Diagrams::GanttDiagram.new # No title
+    diagram.add_task(id: 'a', label: 'Task A', start: '2023-12-01', duration: '3d')
+    # Expect task within the default section
     expected = <<~MERMAID
       gantt
-      Task A :a, 2023-12-01, 2023-12-03
+      section Default Section
+      Task A :a, 2023-12-01, 3d
     MERMAID
     assert_equal expected.strip, diagram.to_mermaid.strip
   end

@@ -1,0 +1,9 @@
+# Augmenting the class from the 'diagrams' gem
+module Diagrams
+  class ERDiagram < Base
+    # Method added by prepending Mermaid::ERDiagramRenderer
+    # Generates the Mermaid syntax for the ER diagram.
+    # @return [String] The Mermaid syntax string.
+    def to_mermaid: () -> String
+  end
+end

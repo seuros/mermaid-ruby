@@ -2,7 +2,7 @@
 
 module Mermaid
   module ElementRenderers
-    # Module containing Mermaid rendering logic for Diagrams::Elements::Relationship
+    # Module containing Mermaid rendering logic for Diagrams::ElementRenderers::Relationship
     module RelationshipRenderer
       # Maps relationship type strings to Mermaid symbols
       MERMAID_RELATIONSHIP_MAP = {

@@ -1,9 +1,7 @@
 # RBS signatures for patches applied to the 'diagram' gem's Relationship element class
 module Diagrams
-  module Elements
-    class Relationship < Dry::Struct
-      # Added by mermaid-ruby gem
-      # Generates the Mermaid fragment for a relationship.
+  module Element
+    class Relationship
       def to_mermaid_fragment: () -> String
 
       # Original attributes/methods (if known/needed)

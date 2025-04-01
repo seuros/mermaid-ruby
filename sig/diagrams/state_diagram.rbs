@@ -1,7 +1,7 @@
 # RBS signatures for patches applied to the 'diagram' gem's StateDiagram class
 module Diagrams
   class StateDiagram < Base
-    # Added by mermaid-ruby gem
+
     # Generates the Mermaid syntax for the state diagram.
     def to_mermaid: () -> String
 

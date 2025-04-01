@@ -2,7 +2,7 @@
 
 module Mermaid
   module ElementRenderers
-    # Module containing Mermaid rendering logic for Diagrams::Elements::Slice
+    # Module containing Mermaid rendering logic for Diagrams::ElementRenderers::Slice
     module SliceRenderer
       # @!method to_mermaid_fragment
       #   Generates the Mermaid fragment for a pie chart slice.

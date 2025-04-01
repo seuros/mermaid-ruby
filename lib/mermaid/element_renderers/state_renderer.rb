@@ -2,7 +2,7 @@
 
 module Mermaid
   module ElementRenderers
-    # Module containing Mermaid rendering logic for Diagrams::Elements::State
+    # Module containing Mermaid rendering logic for Diagrams::ElementRenderers::State
     module StateRenderer
       # @!method to_mermaid_fragment
       #   Generates the Mermaid fragment for a state definition.

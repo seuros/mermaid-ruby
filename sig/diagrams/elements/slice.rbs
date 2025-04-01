@@ -1,8 +1,8 @@
 # RBS signatures for patches applied to the 'diagram' gem's Slice element class
 module Diagrams
-  module Elements
-    class Slice < Dry::Struct
-      # Added by mermaid-ruby gem
+  module Element
+    class Slice
+
       # Generates the Mermaid fragment for a pie chart slice.
       def to_mermaid_fragment: () -> String
 

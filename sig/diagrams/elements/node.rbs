@@ -1,8 +1,8 @@
 # RBS signatures for patches applied to the 'diagram' gem's Node element class
 module Diagrams
-  module Elements
-    class Node < Dry::Struct
-      # Added by mermaid-ruby gem
+  module Element
+    class Node
+
       # Generates the Mermaid fragment for a flowchart node.
       def to_mermaid_fragment: () -> String
 

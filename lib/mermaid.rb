@@ -3,7 +3,12 @@
 require_relative 'mermaid/version'
 require 'diagrams'
 
-loader = Zeitwerk::Loader.for_gem # Remove Zeitwerk setup
+loader = Zeitwerk::Loader.for_gem
+loader.inflector.inflect(
+  'er_diagram_renderer' => 'ERDiagramRenderer',
+  'erd_entity_renderer' => 'ERDEntityRenderer', # Add inflector for new renderers
+  'erd_relationship_renderer' => 'ERDRelationshipRenderer'
+)
 loader.setup
 
 module Diagrams
@@ -13,7 +18,8 @@ module Diagrams
   PieDiagram.prepend(Mermaid::PieDiagramRenderer)
   GanttDiagram.prepend(Mermaid::GanttDiagramRenderer)
   GitgraphDiagram.prepend(Mermaid::GitgraphDiagramRenderer)
-  TimelineDiagram.prepend(Mermaid::TimelineDiagramRenderer) # Add prepend for Timeline
+  TimelineDiagram.prepend(Mermaid::TimelineDiagramRenderer)
+  ERDiagram.prepend(Mermaid::ERDiagramRenderer)
   module Elements
     State.prepend(Mermaid::ElementRenderers::StateRenderer)
     Transition.prepend(Mermaid::ElementRenderers::TransitionRenderer)
@@ -22,6 +28,7 @@ module Diagrams
     Edge.prepend(Mermaid::ElementRenderers::EdgeRenderer)
     Slice.prepend(Mermaid::ElementRenderers::SliceRenderer)
     Task.prepend(Mermaid::ElementRenderers::TaskRenderer)
-    # Add GitCommit, GitBranch, Timeline* prepends if/when renderers are created
+    ERDEntity.prepend(Mermaid::ElementRenderers::ERDEntityRenderer) # Prepend ERD element renderers
+    ERDRelationship.prepend(Mermaid::ElementRenderers::ERDRelationshipRenderer)
   end
 end
