@@ -1,5 +1,12 @@
 ## [Unreleased]
 
+## [0.0.3](https://github.com/seuros/mermaid-ruby/compare/mermaid/v0.0.2...mermaid/v0.0.3) (2025-04-01)
+
+
+### Features
+
+* add ERD diagram representation ([8d081d4](https://github.com/seuros/mermaid-ruby/commit/8d081d44491d64a63c6ca850b22b01d6e456311d))
+
 ## 0.0.2 (2025-04-01)
 
 
