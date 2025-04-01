@@ -65,10 +65,10 @@ class GitgraphDiagramStringTest < UnitTest
     diagram.commit(id: 'c2', type: :HIGHLIGHT)
 
     expected = <<~MERMAID
-     gitGraph
-       checkout master
-       commit id: "c1" tag: "start"
-       commit id: "c2" type: HIGHLIGHT
+      gitGraph
+        checkout master
+        commit id: "c1" tag: "start"
+        commit id: "c2" type: HIGHLIGHT
     MERMAID
     assert_equal expected.gsub(/\s+/, ' ').strip, diagram.to_mermaid.gsub(/\s+/, ' ').strip
   end

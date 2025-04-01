@@ -8,8 +8,7 @@ module Mermaid
     #   @return [String] The Mermaid syntax string.
     def to_mermaid
       mermaid_string = +"gitGraph\n"
-      processed_commits = Set.new
-      current_mermaid_branch = nil # Track the current branch in Mermaid output (defaults to 'master')
+      processed_commits = Set.new # Track the current branch in Mermaid output (defaults to 'master')
 
       # Determine initial branch (default to 'main') and add checkout
       first_commit_id = commit_order.first
@@ -55,9 +54,9 @@ module Mermaid
 
         # Now, handle checkout if needed for the current commit
         if target_branch_name != current_mermaid_branch
-           # Always checkout if the branch differs from the last known Mermaid branch
-           mermaid_string << "  checkout #{target_branch_name}\n"
-           current_mermaid_branch = target_branch_name
+          # Always checkout if the branch differs from the last known Mermaid branch
+          mermaid_string << "  checkout #{target_branch_name}\n"
+          current_mermaid_branch = target_branch_name
         end
 
         # --- Handle Merge ---
