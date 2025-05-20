@@ -1,5 +1,12 @@
 ## [Unreleased]
 
+## [0.0.4](https://github.com/seuros/mermaid-ruby/compare/mermaid/v0.0.3...mermaid/v0.0.4) (2025-05-20)
+
+
+### Bug Fixes
+
+* documentation update ([429bb89](https://github.com/seuros/mermaid-ruby/commit/429bb899a2041392d2ad3ea6f93e9fa0cb6290b6))
+
 ## [0.0.3](https://github.com/seuros/mermaid-ruby/compare/mermaid/v0.0.2...mermaid/v0.0.3) (2025-04-01)
 
 
