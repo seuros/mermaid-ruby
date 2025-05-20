@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    mermaid (0.0.3)
+    mermaid (0.0.4)
       diagram (>= 0.3.4)
       zeitwerk
 
