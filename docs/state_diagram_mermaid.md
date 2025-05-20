@@ -53,3 +53,4 @@ stateDiagram-v2
   Error --> Idle : Reset
   Done --> Idle : New Request / Timeout
   Done --> [*]
+```

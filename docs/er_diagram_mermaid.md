@@ -240,3 +240,4 @@ erDiagram
     "MENTOR" |o--|{ "APPRENTICE" : "trains at least one"
     "FACTION" ||--o{ "FACTION_MEMBER" : "has"
     "RACE" }|--|{ "CLASS" : "can choose"
+```

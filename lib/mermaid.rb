@@ -6,7 +6,7 @@ require 'diagrams'
 loader = Zeitwerk::Loader.for_gem
 loader.inflector.inflect(
   'er_diagram_renderer' => 'ERDiagramRenderer',
-  'erd_entity_renderer' => 'ERDEntityRenderer', # Add inflector for new renderers
+  'erd_entity_renderer' => 'ERDEntityRenderer',
   'erd_relationship_renderer' => 'ERDRelationshipRenderer'
 )
 loader.setup

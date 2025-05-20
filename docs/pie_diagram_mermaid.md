@@ -35,3 +35,4 @@ title Land Usage Distribution (2024)
 "Commercial" : 30
 "Industrial" : 15
 "Agricultural" : 9.5
+```

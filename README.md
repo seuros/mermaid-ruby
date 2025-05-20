@@ -110,17 +110,17 @@ puts pie_chart.to_mermaid
 # "Play" : 8
 
 # --- Example: Gantt Chart ---
-task1 = Diagrams::Elements::Task.new(id: 't1', name: 'Phase 1', start_date: '2024-01-01', end_date: '2024-01-10')
-task2 = Diagrams::Elements::Task.new(id: 't2', name: 'Phase 2', start_date: '2024-01-11', end_date: '2024-01-20')
-
-gantt_chart = Diagrams::GanttDiagram.new(title: 'Project Timeline', tasks: [task1, task2])
+gantt_chart = Diagrams::GanttDiagram.new(title: 'Project Timeline')
+gantt_chart.add_task(id: 't1', label: 'Phase 1', start: '2024-01-01', duration: '10d')
+gantt_chart.add_task(id: 't2', label: 'Phase 2', start: '2024-01-11', duration: '10d')
 
 puts gantt_chart.to_mermaid
 # Output:
 # gantt
 # title Project Timeline
-# : Phase 1 : t1, 2024-01-01, 2024-01-10
-# : Phase 2 : t2, 2024-01-11, 2024-01-20
+# section Default Section
+# Phase 1 :t1, 2024-01-01, 10d
+# Phase 2 :t2, 2024-01-11, 10d
 
 ```
 

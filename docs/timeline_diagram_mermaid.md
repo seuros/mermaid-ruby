@@ -52,3 +52,4 @@ section Modern Era
   2008 : Google Chrome
   2013 : IE 11 (Last version)
   2015 : Microsoft Edge
+```

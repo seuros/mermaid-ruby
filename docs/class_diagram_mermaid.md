@@ -75,3 +75,4 @@ class Owner {
 Dog <|-- Animal
 Cat <|-- Animal
 Owner --> Animal : owns >
+```
