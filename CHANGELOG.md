@@ -1,5 +1,12 @@
 ## [Unreleased]
 
+## [0.0.5](https://github.com/seuros/mermaid-ruby/compare/mermaid/v0.0.4...mermaid/v0.0.5) (2025-07-11)
+
+
+### Bug Fixes
+
+* eager load the gem ([9f10fff](https://github.com/seuros/mermaid-ruby/commit/9f10fff38d6b2edb59a28a6611948d97ca6e5e6e))
+
 ## [0.0.4](https://github.com/seuros/mermaid-ruby/compare/mermaid/v0.0.3...mermaid/v0.0.4) (2025-05-20)
 
 
