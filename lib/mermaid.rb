@@ -10,6 +10,7 @@ loader.inflector.inflect(
   'erd_relationship_renderer' => 'ERDRelationshipRenderer'
 )
 loader.setup
+loader.eager_load
 
 module Diagrams
   StateDiagram.prepend(Mermaid::StateDiagramRenderer)

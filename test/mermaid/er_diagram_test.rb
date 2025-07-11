@@ -127,46 +127,105 @@ class MermaidERDiagramTest < Minitest::Test
       )
     end
   end
+
   def test_complex_fantasy_erd
     diagram = Diagrams::ERDiagram.new
 
     # Entities
-    diagram.add_entity(name: 'WIZARD', attributes: [{ type: 'int', name: 'wizard_id', keys: [:PK] }, { type: 'string', name: 'name' }, { type: 'int', name: 'power_level' }])
-    diagram.add_entity(name: 'FAMILIAR', attributes: [{ type: 'int', name: 'familiar_id', keys: [:PK] }, { type: 'int', name: 'wizard_id', keys: [:FK] }, { type: 'string', name: 'species' }, { type: 'string', name: 'name' }])
-    diagram.add_entity(name: 'SPELLBOOK', attributes: [{ type: 'int', name: 'book_id', keys: [:PK] }, { type: 'string', name: 'title' }, { type: 'int', name: 'wizard_id', keys: [:FK] }])
-    diagram.add_entity(name: 'SPELL', attributes: [{ type: 'int', name: 'spell_id', keys: [:PK] }, { type: 'int', name: 'book_id', keys: [:FK] }, { type: 'string', name: 'name' }, { type: 'string', name: 'effect' }])
-    diagram.add_entity(name: 'POTION', attributes: [{ type: 'int', name: 'potion_id', keys: [:PK] }, { type: 'int', name: 'alchemist_id', keys: [:FK] }, { type: 'string', name: 'effect' }, { type: 'int', name: 'potency' }])
-    diagram.add_entity(name: 'ALCHEMIST', attributes: [{ type: 'int', name: 'alchemist_id', keys: [:PK] }, { type: 'string', name: 'name' }, { type: 'int', name: 'skill_level' }])
-    diagram.add_entity(name: 'ADVENTURER', attributes: [{ type: 'int', name: 'adventurer_id', keys: [:PK] }, { type: 'string', name: 'name' }, { type: 'string', name: 'class' }])
-    diagram.add_entity(name: 'QUEST', attributes: [{ type: 'int', name: 'quest_id', keys: [:PK] }, { type: 'string', name: 'title' }, { type: 'string', name: 'description' }])
-    diagram.add_entity(name: 'ARTIFACT', attributes: [{ type: 'int', name: 'artifact_id', keys: [:PK] }, { type: 'int', name: 'guardian_id', keys: [:FK] }, { type: 'string', name: 'name' }, { type: 'string', name: 'power' }])
-    diagram.add_entity(name: 'GUARDIAN', attributes: [{ type: 'int', name: 'guardian_id', keys: [:PK] }, { type: 'string', name: 'type' }, { type: 'int', name: 'strength' }])
-    diagram.add_entity(name: 'DRAGON', attributes: [{ type: 'int', name: 'dragon_id', keys: [:PK] }, { type: 'string', name: 'name' }, { type: 'string', name: 'color' }])
-    diagram.add_entity(name: 'TREASURE', attributes: [{ type: 'int', name: 'treasure_id', keys: [:PK] }, { type: 'int', name: 'dragon_id', keys: [:FK] }, { type: 'string', name: 'type' }, { type: 'int', name: 'value' }])
-    diagram.add_entity(name: 'GUILD', attributes: [{ type: 'int', name: 'guild_id', keys: [:PK] }, { type: 'string', name: 'name' }, { type: 'string', name: 'location' }])
-    diagram.add_entity(name: 'MEMBER', attributes: [{ type: 'int', name: 'member_id', keys: [:PK] }, { type: 'int', name: 'guild_id', keys: [:FK] }, { type: 'string', name: 'name' }, { type: 'string', name: 'rank' }])
-    diagram.add_entity(name: 'KINGDOM', attributes: [{ type: 'int', name: 'kingdom_id', keys: [:PK] }, { type: 'string', name: 'name' }, { type: 'string', name: 'ruler' }])
-    diagram.add_entity(name: 'PROVINCE', attributes: [{ type: 'int', name: 'province_id', keys: [:PK] }, { type: 'int', name: 'kingdom_id', keys: [:FK] }, { type: 'string', name: 'name' }, { type: 'string', name: 'governor' }])
-    diagram.add_entity(name: 'ENCHANTMENT', attributes: [{ type: 'int', name: 'enchantment_id', keys: [:PK] }, { type: 'string', name: 'type' }, { type: 'int', name: 'power' }])
-    diagram.add_entity(name: 'ITEM', attributes: [{ type: 'int', name: 'item_id', keys: [:PK] }, { type: 'int', name: 'enchantment_id', keys: [:FK] }, { type: 'string', name: 'name' }, { type: 'string', name: 'rarity' }])
-    diagram.add_entity(name: 'MENTOR', attributes: [{ type: 'int', name: 'mentor_id', keys: [:PK] }, { type: 'string', name: 'name' }, { type: 'int', name: 'wisdom' }])
-    diagram.add_entity(name: 'APPRENTICE', attributes: [{ type: 'int', name: 'apprentice_id', keys: [:PK] }, { type: 'int', name: 'mentor_id', keys: [:FK] }, { type: 'string', name: 'name' }, { type: 'int', name: 'potential' }])
-    diagram.add_entity(name: 'FACTION', attributes: [{ type: 'int', name: 'faction_id', keys: [:PK] }, { type: 'string', name: 'name' }, { type: 'string', name: 'alignment' }])
-    diagram.add_entity(name: 'FACTION_MEMBER', attributes: [{ type: 'int', name: 'member_id', keys: [:PK] }, { type: 'int', name: 'faction_id', keys: [:FK] }, { type: 'string', name: 'name' }, { type: 'string', name: 'role' }])
-    diagram.add_entity(name: 'RACE', attributes: [{ type: 'int', name: 'race_id', keys: [:PK] }, { type: 'string', name: 'name' }, { type: 'int', name: 'lifespan' }])
-    diagram.add_entity(name: 'CLASS', attributes: [{ type: 'int', name: 'class_id', keys: [:PK] }, { type: 'string', name: 'name' }, { type: 'string', name: 'primary_stat' }])
+    diagram.add_entity(name: 'WIZARD',
+                       attributes: [{ type: 'int', name: 'wizard_id', keys: [:PK] }, { type: 'string', name: 'name' },
+                                    { type: 'int', name: 'power_level' }])
+    diagram.add_entity(name: 'FAMILIAR',
+                       attributes: [{ type: 'int', name: 'familiar_id', keys: [:PK] }, { type: 'int', name: 'wizard_id', keys: [:FK] },
+                                    { type: 'string', name: 'species' }, { type: 'string', name: 'name' }])
+    diagram.add_entity(name: 'SPELLBOOK',
+                       attributes: [{ type: 'int', name: 'book_id', keys: [:PK] }, { type: 'string', name: 'title' },
+                                    { type: 'int', name: 'wizard_id', keys: [:FK] }])
+    diagram.add_entity(name: 'SPELL',
+                       attributes: [{ type: 'int', name: 'spell_id', keys: [:PK] }, { type: 'int', name: 'book_id', keys: [:FK] },
+                                    { type: 'string', name: 'name' }, { type: 'string', name: 'effect' }])
+    diagram.add_entity(name: 'POTION',
+                       attributes: [{ type: 'int', name: 'potion_id', keys: [:PK] }, { type: 'int', name: 'alchemist_id', keys: [:FK] },
+                                    { type: 'string', name: 'effect' }, { type: 'int', name: 'potency' }])
+    diagram.add_entity(name: 'ALCHEMIST',
+                       attributes: [{ type: 'int', name: 'alchemist_id', keys: [:PK] }, { type: 'string', name: 'name' },
+                                    { type: 'int', name: 'skill_level' }])
+    diagram.add_entity(name: 'ADVENTURER',
+                       attributes: [{ type: 'int', name: 'adventurer_id', keys: [:PK] }, { type: 'string', name: 'name' },
+                                    { type: 'string', name: 'class' }])
+    diagram.add_entity(name: 'QUEST',
+                       attributes: [{ type: 'int', name: 'quest_id', keys: [:PK] }, { type: 'string', name: 'title' },
+                                    { type: 'string', name: 'description' }])
+    diagram.add_entity(name: 'ARTIFACT',
+                       attributes: [{ type: 'int', name: 'artifact_id', keys: [:PK] }, { type: 'int', name: 'guardian_id', keys: [:FK] },
+                                    { type: 'string', name: 'name' }, { type: 'string', name: 'power' }])
+    diagram.add_entity(name: 'GUARDIAN',
+                       attributes: [{ type: 'int', name: 'guardian_id', keys: [:PK] }, { type: 'string', name: 'type' },
+                                    { type: 'int', name: 'strength' }])
+    diagram.add_entity(name: 'DRAGON',
+                       attributes: [{ type: 'int', name: 'dragon_id', keys: [:PK] }, { type: 'string', name: 'name' },
+                                    { type: 'string', name: 'color' }])
+    diagram.add_entity(name: 'TREASURE',
+                       attributes: [{ type: 'int', name: 'treasure_id', keys: [:PK] }, { type: 'int', name: 'dragon_id', keys: [:FK] },
+                                    { type: 'string', name: 'type' }, { type: 'int', name: 'value' }])
+    diagram.add_entity(name: 'GUILD',
+                       attributes: [{ type: 'int', name: 'guild_id', keys: [:PK] }, { type: 'string', name: 'name' },
+                                    { type: 'string', name: 'location' }])
+    diagram.add_entity(name: 'MEMBER',
+                       attributes: [{ type: 'int', name: 'member_id', keys: [:PK] }, { type: 'int', name: 'guild_id', keys: [:FK] },
+                                    { type: 'string', name: 'name' }, { type: 'string', name: 'rank' }])
+    diagram.add_entity(name: 'KINGDOM',
+                       attributes: [{ type: 'int', name: 'kingdom_id', keys: [:PK] }, { type: 'string', name: 'name' },
+                                    { type: 'string', name: 'ruler' }])
+    diagram.add_entity(name: 'PROVINCE',
+                       attributes: [{ type: 'int', name: 'province_id', keys: [:PK] }, { type: 'int', name: 'kingdom_id', keys: [:FK] },
+                                    { type: 'string', name: 'name' }, { type: 'string', name: 'governor' }])
+    diagram.add_entity(name: 'ENCHANTMENT',
+                       attributes: [{ type: 'int', name: 'enchantment_id', keys: [:PK] }, { type: 'string', name: 'type' },
+                                    { type: 'int', name: 'power' }])
+    diagram.add_entity(name: 'ITEM',
+                       attributes: [{ type: 'int', name: 'item_id', keys: [:PK] }, { type: 'int', name: 'enchantment_id', keys: [:FK] },
+                                    { type: 'string', name: 'name' }, { type: 'string', name: 'rarity' }])
+    diagram.add_entity(name: 'MENTOR',
+                       attributes: [{ type: 'int', name: 'mentor_id', keys: [:PK] }, { type: 'string', name: 'name' },
+                                    { type: 'int', name: 'wisdom' }])
+    diagram.add_entity(name: 'APPRENTICE',
+                       attributes: [{ type: 'int', name: 'apprentice_id', keys: [:PK] }, { type: 'int', name: 'mentor_id', keys: [:FK] },
+                                    { type: 'string', name: 'name' }, { type: 'int', name: 'potential' }])
+    diagram.add_entity(name: 'FACTION',
+                       attributes: [{ type: 'int', name: 'faction_id', keys: [:PK] }, { type: 'string', name: 'name' },
+                                    { type: 'string', name: 'alignment' }])
+    diagram.add_entity(name: 'FACTION_MEMBER',
+                       attributes: [{ type: 'int', name: 'member_id', keys: [:PK] }, { type: 'int', name: 'faction_id', keys: [:FK] },
+                                    { type: 'string', name: 'name' }, { type: 'string', name: 'role' }])
+    diagram.add_entity(name: 'RACE',
+                       attributes: [{ type: 'int', name: 'race_id', keys: [:PK] }, { type: 'string', name: 'name' },
+                                    { type: 'int', name: 'lifespan' }])
+    diagram.add_entity(name: 'CLASS',
+                       attributes: [{ type: 'int', name: 'class_id', keys: [:PK] }, { type: 'string', name: 'name' },
+                                    { type: 'string', name: 'primary_stat' }])
 
     # Relationships
-    diagram.add_relationship(entity1: 'WIZARD', entity2: 'FAMILIAR', cardinality1: :ONE_ONLY, cardinality2: :ONE_ONLY, identifying: false, label: 'has exactly one')
-    diagram.add_relationship(entity1: 'SPELLBOOK', entity2: 'SPELL', cardinality1: :ONE_ONLY, cardinality2: :ZERO_OR_MORE, identifying: false, label: 'contains many')
-    diagram.add_relationship(entity1: 'POTION', entity2: 'ALCHEMIST', cardinality1: :ZERO_OR_MORE, cardinality2: :ONE_ONLY, identifying: false, label: 'created by one')
-    diagram.add_relationship(entity1: 'ADVENTURER', entity2: 'QUEST', cardinality1: :ZERO_OR_MORE, cardinality2: :ZERO_OR_MORE, identifying: false, label: 'undertakes many')
-    diagram.add_relationship(entity1: 'ARTIFACT', entity2: 'GUARDIAN', cardinality1: :ZERO_OR_ONE, cardinality2: :ONE_ONLY, identifying: false, label: 'protected by one')
-    diagram.add_relationship(entity1: 'DRAGON', entity2: 'TREASURE', cardinality1: :ZERO_OR_ONE, cardinality2: :ZERO_OR_MORE, identifying: false, label: 'hoards many')
-    diagram.add_relationship(entity1: 'GUILD', entity2: 'MEMBER', cardinality1: :ONE_ONLY, cardinality2: :ZERO_OR_MORE, identifying: false, label: 'may have members')
-    diagram.add_relationship(entity1: 'KINGDOM', entity2: 'PROVINCE', cardinality1: :ONE_ONLY, cardinality2: :ONE_OR_MORE, identifying: false, label: 'rules at least one')
-    diagram.add_relationship(entity1: 'ENCHANTMENT', entity2: 'ITEM', cardinality1: :ZERO_OR_ONE, cardinality2: :ZERO_OR_MORE, identifying: false, label: 'may enhance')
-    diagram.add_relationship(entity1: 'MENTOR', entity2: 'APPRENTICE', cardinality1: :ZERO_OR_ONE, cardinality2: :ONE_OR_MORE, identifying: false, label: 'trains at least one')
+    diagram.add_relationship(entity1: 'WIZARD', entity2: 'FAMILIAR', cardinality1: :ONE_ONLY, cardinality2: :ONE_ONLY,
+                             identifying: false, label: 'has exactly one')
+    diagram.add_relationship(entity1: 'SPELLBOOK', entity2: 'SPELL', cardinality1: :ONE_ONLY,
+                             cardinality2: :ZERO_OR_MORE, identifying: false, label: 'contains many')
+    diagram.add_relationship(entity1: 'POTION', entity2: 'ALCHEMIST', cardinality1: :ZERO_OR_MORE,
+                             cardinality2: :ONE_ONLY, identifying: false, label: 'created by one')
+    diagram.add_relationship(entity1: 'ADVENTURER', entity2: 'QUEST', cardinality1: :ZERO_OR_MORE,
+                             cardinality2: :ZERO_OR_MORE, identifying: false, label: 'undertakes many')
+    diagram.add_relationship(entity1: 'ARTIFACT', entity2: 'GUARDIAN', cardinality1: :ZERO_OR_ONE,
+                             cardinality2: :ONE_ONLY, identifying: false, label: 'protected by one')
+    diagram.add_relationship(entity1: 'DRAGON', entity2: 'TREASURE', cardinality1: :ZERO_OR_ONE,
+                             cardinality2: :ZERO_OR_MORE, identifying: false, label: 'hoards many')
+    diagram.add_relationship(entity1: 'GUILD', entity2: 'MEMBER', cardinality1: :ONE_ONLY, cardinality2: :ZERO_OR_MORE,
+                             identifying: false, label: 'may have members')
+    diagram.add_relationship(entity1: 'KINGDOM', entity2: 'PROVINCE', cardinality1: :ONE_ONLY,
+                             cardinality2: :ONE_OR_MORE, identifying: false, label: 'rules at least one')
+    diagram.add_relationship(entity1: 'ENCHANTMENT', entity2: 'ITEM', cardinality1: :ZERO_OR_ONE,
+                             cardinality2: :ZERO_OR_MORE, identifying: false, label: 'may enhance')
+    diagram.add_relationship(entity1: 'MENTOR', entity2: 'APPRENTICE', cardinality1: :ZERO_OR_ONE,
+                             cardinality2: :ONE_OR_MORE, identifying: false, label: 'trains at least one')
     diagram.add_relationship(entity1: 'FACTION', entity2: 'FACTION_MEMBER', cardinality1: :ONE_ONLY, cardinality2: :ZERO_OR_MORE, identifying: true, label: 'has') # Identifying relationship uses '-'
     diagram.add_relationship(entity1: 'RACE', entity2: 'CLASS', cardinality1: :ONE_OR_MORE, cardinality2: :ONE_OR_MORE, identifying: true, label: 'can choose') # Identifying relationship uses '-'
 
