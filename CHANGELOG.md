@@ -1,5 +1,13 @@
 ## [Unreleased]
 
+## [0.0.6](https://github.com/seuros/mermaid-ruby/compare/mermaid/v0.0.5...mermaid/v0.0.6) (2025-08-14)
+
+
+### Bug Fixes
+
+* conform to mermaid standard syntax. This will allow user to gene… ([9081725](https://github.com/seuros/mermaid-ruby/commit/90817257b7b7a8bab28b1aff250ee5ac83eaa85c))
+* conform to mermaid standard syntax. This will allow user to generate ERD compatible with Github ([f6574b5](https://github.com/seuros/mermaid-ruby/commit/f6574b54f959f15e9d37f88709fe21b77987293a))
+
 ## [0.0.5](https://github.com/seuros/mermaid-ruby/compare/mermaid/v0.0.4...mermaid/v0.0.5) (2025-07-11)
 
 
