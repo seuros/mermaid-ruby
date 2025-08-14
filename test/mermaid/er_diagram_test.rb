@@ -381,4 +381,68 @@ class MermaidERDiagramTest < Minitest::Test
 
     assert_equal normalized_expected, normalized_actual
   end
+
+  def test_namespaced_entity_names_with_uk_constraints
+    # Test for GitHub Issue #18: ActiveStorage::Attachment with UK constraints
+    diagram = Diagrams::ERDiagram.new
+
+    diagram.add_entity(
+      name: 'ActiveStorage::Attachment',
+      attributes: [
+        { type: 'int', name: 'id', keys: [:PK] },
+        { type: 'varchar', name: 'name', keys: [:UK] },
+        { type: 'varchar', name: 'record_type' },
+        { type: 'int', name: 'record_id' }
+      ]
+    )
+
+    diagram.add_entity(
+      name: 'ActiveStorage::Blob',
+      attributes: [
+        { type: 'int', name: 'id', keys: [:PK] },
+        { type: 'varchar', name: 'key', keys: [:UK] },
+        { type: 'varchar', name: 'filename' }
+      ]
+    )
+
+    expected_mermaid = <<~MERMAID.strip
+      erDiagram
+      "ActiveStorage::Attachment" {
+        int id PK
+        varchar name "UK"
+        varchar record_type
+        int record_id
+      }
+      "ActiveStorage::Blob" {
+        int id PK
+        varchar key "UK"
+        varchar filename
+      }
+    MERMAID
+
+    assert_equal expected_mermaid, diagram.to_mermaid
+  end
+
+  def test_mixed_constraints_with_namespaced_entities
+    # Test mixed PK and UK constraints with namespaced models
+    diagram = Diagrams::ERDiagram.new
+
+    diagram.add_entity(
+      name: 'MyApp::User',
+      attributes: [
+        { type: 'int', name: 'composite_id', keys: %i[PK UK] },
+        { type: 'varchar', name: 'email', keys: [:UK] }
+      ]
+    )
+
+    expected_mermaid = <<~MERMAID.strip
+      erDiagram
+      "MyApp::User" {
+        int composite_id PK "UK"
+        varchar email "UK"
+      }
+    MERMAID
+
+    assert_equal expected_mermaid, diagram.to_mermaid
+  end
 end

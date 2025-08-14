@@ -10,8 +10,22 @@ module Mermaid
         fragment = "\"#{name}\" {\n"
         entity_attributes.each do |attr|
           fragment << "  #{attr.type} #{attr.name}"
-          # Join keys like PK, FK with spaces if present
-          fragment << " #{attr.keys.join(' ')}" unless attr.keys.empty?
+
+          # Separate Mermaid-native constraints from comment-only constraints
+          unless attr.keys.empty?
+            native_keys = attr.keys.select { |key| %i[PK FK].include?(key) }
+            comment_keys = attr.keys.select { |key| [:UK].include?(key) }
+
+            # Add native keys first
+            fragment << " #{native_keys.join(' ')}" unless native_keys.empty?
+
+            # Quote UK as comment to mark it as comment
+            comment_keys.each do |key|
+              fragment << " \"#{key}\""
+            end
+          end
+
+          # Add explicit comment if present
           fragment << " \"#{attr.comment}\"" if attr.comment && !attr.comment.empty?
           fragment << "\n"
         end
