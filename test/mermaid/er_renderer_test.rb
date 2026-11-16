@@ -19,11 +19,11 @@ class ERRendererTest < Minitest::Test
       erDiagram
         "CUSTOMER" {
           int id PK
-          int account_id FK, UK "the 'main' one"
+          int account_id FK, UK "the #34;main#34; one"
           string email UK
           string name
         }
-        "ActiveStorage::Blob"
+        "ActiveStorage#58;#58;Blob"
     MERMAID
   end
 
@@ -33,8 +33,8 @@ class ERRendererTest < Minitest::Test
     @diagram.add_relationship(entity1: 'CUSTOMER', entity2: 'ActiveStorage::Blob', cardinality1: :ZERO_OR_ONE,
                               cardinality2: :ONE_OR_MORE, identifying: true)
 
-    assert_equal ['"CUSTOMER" ||..o{ "ActiveStorage::Blob" : "uploads"',
-                  '"CUSTOMER" |o--|{ "ActiveStorage::Blob" : ""'],
+    assert_equal ['"CUSTOMER" ||..o{ "ActiveStorage#58;#58;Blob" : "uploads"',
+                  '"CUSTOMER" |o--|{ "ActiveStorage#58;#58;Blob" : ""'],
                  @diagram.to_mermaid.lines.last(2).map(&:strip)
   end
 end

@@ -28,3 +28,24 @@ jobs:
       run: bundle exec rubocop
     - name: Validate RBS signatures
       run: bundle exec rake rbs
+
+  parse:
+    runs-on: ubuntu-latest
+    name: Mermaid parser
+    steps:
+    - uses: actions/checkout@v7
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '4.0'
+        bundler-cache: true
+    - name: Set up Node
+      uses: actions/setup-node@v7
+      with:
+        node-version: '24'
+        cache: npm
+        cache-dependency-path: parser/package-lock.json
+    - name: Install Mermaid
+      run: npm ci --prefix parser
+    - name: Parse the output with Mermaid
+      run: bundle exec rake parse

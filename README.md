@@ -85,13 +85,42 @@ git.merge(from_branch_name: 'feature', id: 'merge', tag: 'v1')
 puts git.to_mermaid
 # gitGraph
 #   commit id: "init"
-#   branch feature
+#   branch "feature"
 #   commit id: "work"
-#   checkout main
-#   merge feature id: "merge" tag: "v1"
+#   checkout "main"
+#   merge "feature" id: "merge" tag: "v1"
 ```
 
-Rendering a diagram class that has no renderer raises `TypeError`.
+Cherry-picks are refused: Mermaid names a cherry-picked commit itself, so its
+id would be lost.
+
+## Text and names
+
+Text reaches Mermaid as text. Any character Mermaid could read as syntax (a
+quote, colon, `#`, `%`, a line break, markup) is written as a numeric entity
+(`#58;`), which Mermaid turns back into the character when it draws; names
+Mermaid cannot read as identifiers are aliased (`n0`, `s0`, `c0`) and shown
+as their label:
+
+```ruby
+states = Diagrams::StateDiagram.new
+states.add_state(id: 'Billing::Invoice', label: 'Paid: done')
+
+puts states.to_mermaid
+# stateDiagram-v2
+#   state "Paid#58; done" as s0
+```
+
+What Mermaid cannot carry is refused with `ArgumentError` rather than drawn
+differently: class members that would break the class block or be read as
+the wrong kind of member (members are Mermaid notation, such as
+`+save() bool`), Gantt ids, starts and durations Mermaid would split, a main
+branch name that needs entity codes, and cherry-picks. Rendering a diagram
+class that has no renderer raises `TypeError`.
+
+`rake parse` renders a battery of diagrams, hostile text included, parses each
+with Mermaid's own parser (Node; `npm ci --prefix parser` first) and checks
+that Mermaid reads back the same names, labels, links and values.
 
 ## Development
 
@@ -99,6 +128,7 @@ Rendering a diagram class that has no renderer raises `TypeError`.
 bundle install
 bundle exec rake        # tests (padded_cell on CRuby), RuboCop, RBS
 bundle exec rake minitest
+npm ci --prefix parser && bundle exec rake parse   # Mermaid's parser check
 ```
 
 ## License

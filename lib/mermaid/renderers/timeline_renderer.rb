@@ -6,15 +6,19 @@ module Mermaid
     class TimelineRenderer < Renderer
       prepend InlineTitle
 
+      KEYWORDS = %w[title section acctitle accdescr].freeze
+
       renders Diagrams::TimelineDiagram, 'timeline'
 
       private
 
       def body
         diagram.sections.flat_map do |section|
-          [*("section #{section.title}" if section.title), *section.periods.map { [it.label, *it.events].join(' : ') }]
+          [*("section #{text(section.title)}" if section.title), *section.periods.map { period(it) }]
         end
       end
+
+      def period(period) = [line_start(period.label, KEYWORDS), *period.events.map { text(it) }].join(' : ')
     end
   end
 end

@@ -8,6 +8,6 @@ module Mermaid
 
     def settings = super.except(:title)
 
-    def body = [*("title #{diagram.title}" if diagram.title), *super]
+    def body = [*("title #{text(diagram.title)}" if diagram.title), *super]
   end
 end

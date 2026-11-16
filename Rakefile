@@ -32,4 +32,9 @@ task :rbs do
   sh 'rbs', '-I', 'sig', '-I', File.join(Gem.loaded_specs.fetch('diagram').full_gem_path, 'sig'), 'validate'
 end
 
+desc "Parse every renderer's output with Mermaid's own parser (needs Node: npm ci --prefix parser)"
+task :parse do
+  ruby '-Ilib', 'parser/check.rb'
+end
+
 task default: %i[test rubocop rbs]

@@ -3,7 +3,7 @@
 require 'test_helper'
 
 class GitgraphRendererTest < Minitest::Test
-  def test_commits_branches_merges_and_cherry_picks
+  def test_commits_branches_and_merges
     diagram = Diagrams::GitgraphDiagram.new
     diagram.commit(id: 'C1')
     diagram.branch(name: 'develop')
@@ -11,19 +11,15 @@ class GitgraphRendererTest < Minitest::Test
     diagram.checkout(name: 'main')
     diagram.commit(id: 'C2', tag: 'v0.1')
     diagram.merge(from_branch_name: 'develop', id: 'M1', tag: 'v1')
-    diagram.checkout(name: 'develop')
-    diagram.cherry_pick(commit_id: 'C2')
 
     assert_mermaid <<~MERMAID, diagram
       gitGraph
         commit id: "C1"
-        branch develop
+        branch "develop"
         commit id: "D1" type: HIGHLIGHT
-        checkout main
+        checkout "main"
         commit id: "C2" tag: "v0.1"
-        merge develop id: "M1" tag: "v1"
-        checkout develop
-        cherry-pick id: "C2"
+        merge "develop" id: "M1" tag: "v1"
     MERMAID
   end
 
@@ -37,10 +33,10 @@ class GitgraphRendererTest < Minitest::Test
     assert_mermaid <<~MERMAID, diagram
       gitGraph
         commit id: "C1"
-        branch hotfix
-        checkout main
+        branch "hotfix"
+        checkout "main"
         commit id: "C2"
-        checkout hotfix
+        checkout "hotfix"
         commit id: "H1"
     MERMAID
   end

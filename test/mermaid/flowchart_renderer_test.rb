@@ -12,7 +12,7 @@ class FlowchartRendererTest < Minitest::Test
 
     assert_mermaid <<~MERMAID, diagram
       flowchart TD
-        a["Say #quot;hi#quot;"]
+        a["Say #34;hi#34;"]
         b["Done"]
         a -->|"next"| b
         b --> a

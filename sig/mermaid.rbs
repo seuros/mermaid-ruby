@@ -6,6 +6,10 @@ module Mermaid
   end
 
   class Renderer
+    SAFE: Regexp
+    PLACEHOLDERS: Regexp
+    PLAIN: Regexp
+
     def self.render: (Diagrams::Base diagram) -> String
     def self.registry: () -> Hash[Class, singleton(Renderer)]
 
@@ -18,27 +22,36 @@ module Mermaid
 
   module Renderers
     class FlowchartRenderer < Renderer
+      RESERVED: Array[String]
     end
 
     class StateRenderer < Renderer
+      RESERVED: Array[String]
     end
 
     class ClassRenderer < Renderer
       ARROWS: Hash[Symbol, String]
+      RESERVED: Array[String]
+      OPERATION: Regexp
     end
 
     class ERRenderer < Renderer
       LEFT: Hash[Symbol, String]
       RIGHT: Hash[Symbol, String]
+      WORD: Regexp
     end
 
     class PieRenderer < Renderer
     end
 
     class GanttRenderer < Renderer
+      KEYWORDS: Array[String]
+      ID: Regexp
+      DATA: Regexp
     end
 
     class TimelineRenderer < Renderer
+      KEYWORDS: Array[String]
     end
 
     class GitgraphRenderer < Renderer

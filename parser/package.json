@@ -1,0 +1,11 @@
+{
+  "name": "mermaid-ruby-parser-check",
+  "private": true,
+  "description": "Parses mermaid-ruby output with Mermaid's own parser (rake parse).",
+  "type": "module",
+  "dependencies": {
+    "dompurify": "3.4.17",
+    "js-yaml": "4.1.0",
+    "mermaid": "11.17.2"
+  }
+}
