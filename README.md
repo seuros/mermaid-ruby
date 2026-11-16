@@ -71,28 +71,32 @@ puts shop.to_mermaid
 #   "CUSTOMER" ||..o{ "ORDER" : "places"
 ```
 
-A git graph replays its history. Mermaid opens a branch at the head of the
-checked-out branch, so each branch is opened right after its start commit:
+A git graph is already a gitGraph program (the diagram gem models Mermaid's
+statements and refusals), so each statement renders as the one it models.
+A cherry-pick names its source; Mermaid generates the picked commit's id:
 
 ```ruby
 git = Diagrams::GitgraphDiagram.new
 git.commit(id: 'init')
-git.branch(name: 'feature')
-git.commit(id: 'work')
+git.branch(name: 'feature', order: 1)
+git.commit(id: 'work', message: 'the work')
 git.checkout(name: 'main')
-git.merge(from_branch_name: 'feature', id: 'merge', tag: 'v1')
+git.commit(id: 'fix', tags: ['v1.0.1'])
+git.merge(branch: 'feature', id: 'merge', tags: ['v1'])
+git.checkout(name: 'feature')
+git.cherry_pick(commit_id: 'fix')
 
 puts git.to_mermaid
 # gitGraph
 #   commit id: "init"
-#   branch "feature"
-#   commit id: "work"
+#   branch "feature" order: 1
+#   commit id: "work" msg: "the work"
 #   checkout "main"
+#   commit id: "fix" tag: "v1.0.1"
 #   merge "feature" id: "merge" tag: "v1"
+#   checkout "feature"
+#   cherry-pick id: "fix"
 ```
-
-Cherry-picks are refused: Mermaid names a cherry-picked commit itself, so its
-id would be lost.
 
 ## Text and names
 
@@ -114,13 +118,17 @@ puts states.to_mermaid
 What Mermaid cannot carry is refused with `ArgumentError` rather than drawn
 differently: class members that would break the class block or be read as
 the wrong kind of member (members are Mermaid notation, such as
-`+save() bool`), Gantt ids, starts and durations Mermaid would split, a main
-branch name that needs entity codes, and cherry-picks. Rendering a diagram
-class that has no renderer raises `TypeError`.
+`+save() bool`; an annotation such as `<<interface>>` is not a member), a
+main branch name that needs entity codes, and titles holding Mermaid's entity
+placeholders. Gantt tasks need no refusal here: the diagram gem only accepts
+the forms Mermaid evaluates. Rendering a diagram class that has no renderer
+raises `TypeError`.
 
 `rake parse` renders a battery of diagrams, hostile text included, parses each
 with Mermaid's own parser (Node; `npm ci --prefix parser` first) and checks
-that Mermaid reads back the same names, labels, links and values.
+that Mermaid reads back the same model: which node is which, labels, links and
+their kind, values, commits and lanes. Every case also round-trips through
+JSON, and negative controls (mutated output) must be rejected.
 
 ## Development
 

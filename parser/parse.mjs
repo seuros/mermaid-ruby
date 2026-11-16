@@ -23,43 +23,42 @@ mermaid.initialize({ startOnLoad: false, securityLevel: 'strict' });
 const text = value => (value ?? '').trim().replace(/ﬂ°°(\d+)¶ß/g, (_, code) => String.fromCodePoint(Number(code)));
 const entries = map => (map instanceof Map ? [...map.entries()] : Object.entries(map ?? {}));
 
+// Facts keep Mermaid's own ids, so the caller can match them to the model
+// by declaration order: two nodes with the same label stay two nodes.
 const facts = {
   flowchart(db) {
-    const vertices = new Map(entries(db.getVertices()));
-    const name = id => text(vertices.get(id)?.text ?? id);
     return {
-      nodes: [...vertices.values()].map(vertex => text(vertex.text)),
-      edges: db.getEdges().map(edge => [name(edge.start), name(edge.end), text(edge.text)])
+      nodes: [...new Map(entries(db.getVertices())).values()].map(v => [v.id, text(v.text)]),
+      edges: db.getEdges().map(edge => [edge.start, edge.end, text(edge.text)])
     };
   },
   state(db) {
-    const states = new Map(entries(db.getStates()));
-    const name = id => (/^root_(start|end)$/.test(id) ? '*' : text(states.get(id)?.descriptions?.[0] ?? id));
+    const terminal = id => (/^root_(start|end)$/.test(id) ? '*' : id);
     return {
-      states: [...states.keys()].filter(id => !/^root_(start|end)$/.test(id)).map(name),
-      transitions: db.getRelations().map(rel => [name(rel.id1), name(rel.id2), text(rel.relationTitle)])
+      states: entries(db.getStates()).filter(([id]) => terminal(id) !== '*')
+        .map(([id, state]) => [id, text(state.descriptions?.[0] ?? id)]),
+      transitions: db.getRelations().map(rel => [terminal(rel.id1), terminal(rel.id2), text(rel.relationTitle)])
     };
   },
   class(db) {
-    const classes = new Map(entries(db.getClasses()));
-    const name = id => text(classes.get(id)?.label ?? id);
     const member = item => text(item.text).replace(/^\\/, '');
     return {
-      classes: [...classes.values()].map(c => [text(c.label), c.members.map(member), c.methods.map(member)]),
-      relationships: db.getRelations().map(rel => [name(rel.id1), name(rel.id2), text(rel.title)])
+      classes: [...new Map(entries(db.getClasses())).values()]
+        .map(c => [c.id, text(c.label), c.members.map(member), c.methods.map(member)]),
+      relationships: db.getRelations().map(rel => [
+        rel.id1, rel.id2, text(rel.title), rel.relation.type1, rel.relation.type2, rel.relation.lineType
+      ])
     };
   },
   er(db) {
     const entities = entries(db.getEntities());
-    const byId = new Map(entities.map(([name, entity]) => [entity.id, text(name)]));
     return {
       entities: entities.map(([name, entity]) => [
-        text(name),
+        entity.id, text(name),
         entity.attributes.map(a => [text(a.type), text(a.name), a.keys ?? [], text(a.comment)])
       ]),
       relationships: db.getRelationships().map(rel => [
-        byId.get(rel.entityA), byId.get(rel.entityB), text(rel.roleA),
-        rel.relSpec.cardB, rel.relSpec.cardA, rel.relSpec.relType
+        rel.entityA, rel.entityB, text(rel.roleA), rel.relSpec.cardB, rel.relSpec.cardA, rel.relSpec.relType
       ])
     };
   },
@@ -85,8 +84,11 @@ const facts = {
   gitGraph(db) {
     const commits = [...db.getCommits().values()].sort((a, b) => a.seq - b.seq);
     return {
-      branches: [...db.getBranches().keys()].map(text),
-      commits: commits.map(c => [text(c.id), text(c.branch), c.parents.map(text), c.tags.map(text), c.type])
+      lanes: db.getBranchesAsObjArray().map(branch => text(branch.name)),
+      commits: commits.map(c => [
+        text(c.id), text(c.branch), c.parents.map(text), c.tags.map(text), c.type, c.customType ?? null,
+        text(c.message)
+      ])
     };
   }
 };

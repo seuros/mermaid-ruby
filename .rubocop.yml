@@ -27,11 +27,8 @@ Gemspec/DevelopmentDependencies:
 Metrics/ClassLength:
   Exclude:
     - 'test/**/*' # Allow longer test classes
-# parser/check.rb is the parse-check harness: one module of cases and facts.
-Metrics/ModuleLength:
-  Exclude:
-    - 'parser/**/*'
-
-Metrics/CyclomaticComplexity:
+# parser/check.rb is the parse-check harness: an exhaustive table of cases
+# and facts, read top to bottom.
+Metrics:
   Exclude:
     - 'parser/**/*'

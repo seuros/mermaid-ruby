@@ -102,19 +102,20 @@ class ReviewTest < Minitest::Test
     assert_mermaid "gantt\n  #116;itle case :t, 2026-01-01, 1d", diagram
   end
 
-  # 3: Mermaid names cherry-picked commits itself; drawing one would lose its id.
-  def test_cherry_picks_are_refused
+  # 3: a cherry-pick renders as Mermaid's cherry-pick of its source. Mermaid
+  # names the picked commit itself, so the model refuses picking it again.
+  def test_cherry_picks_render_and_a_pick_of_a_pick_is_refused_at_the_call
     diagram = Diagrams::GitgraphDiagram.new
     diagram.commit(id: 'A')
     diagram.branch(name: 'feature')
     diagram.commit(id: 'B')
     diagram.checkout(name: 'main')
-    diagram.cherry_pick(commit_id: 'B', id: 'pick')
+    pick = diagram.cherry_pick(commit_id: 'B')
     diagram.checkout(name: 'feature')
-    diagram.cherry_pick(commit_id: 'pick', id: 'pick2')
 
-    error = assert_raises(ArgumentError) { diagram.to_mermaid }
-    assert_match(/cannot draw cherry-pick "pick"/, error.message)
+    error = assert_raises(ArgumentError) { diagram.cherry_pick(commit_id: pick.id) }
+    assert_match(/is a cherry-pick, which Mermaid cannot name/, error.message)
+    assert_equal '  cherry-pick id: "B"', diagram.to_mermaid.lines[5].chomp
   end
 
   # 4: Mermaid rejects a class diagram without statements.
@@ -127,15 +128,15 @@ class ReviewTest < Minitest::Test
     diagram = Diagrams::PieDiagram.new
     diagram.add_slice(label: 'small', value: 1e-5)
     diagram.add_slice(label: 'large', value: 1e20)
+    diagram.add_slice(label: 'none', value: -0.0)
 
-    assert_mermaid "pie\n  \"small\" : 0.00001\n  \"large\" : 100000000000000000000", diagram
+    assert_mermaid "pie\n  \"small\" : 0.00001\n  \"large\" : 100000000000000000000\n  \"none\" : 0", diagram
   end
 
   # Values Mermaid cannot carry are refused, not drawn differently.
   def test_refusals
     refusals = {
-      /task id "a b"/ => gantt_with(id: 'a b'),
-      /split task data "2026-01-01, 2"/ => gantt_with(start: '2026-01-01, 2'),
+      /"<<interface>>" as an annotation/ => class_with(attributes: ['<<interface>>']),
       /class member "x \{"/ => class_with(attributes: ['x {']),
       /"\+run\(\)" as an operation/ => class_with(attributes: ['+run()']),
       /"\+go" as an attribute/ => class_with(operations: ['+go']),
@@ -149,12 +150,6 @@ class ReviewTest < Minitest::Test
   end
 
   private
-
-  def gantt_with(**task)
-    Diagrams::GanttDiagram.new.tap do |diagram|
-      diagram.add_task(id: 'a', label: 'x', start: '2026-01-01', duration: '1d', **task)
-    end
-  end
 
   def class_with(**members) = Diagrams::ClassDiagram.new.tap { it.add_class(name: 'A', **members) }
 end

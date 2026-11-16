@@ -38,6 +38,7 @@ module Mermaid
 
       def member(member, operation)
         raise ArgumentError, "Mermaid cannot show class member #{member.inspect}" if member.match?(/[{}\n\r]/)
+        raise ArgumentError, "Mermaid would read #{member.inspect} as an annotation" if member.start_with?('<<')
         unless member.match?(OPERATION) == operation
           raise ArgumentError, "Mermaid would show #{member.inspect} as an #{operation ? 'attribute' : 'operation'}"
         end

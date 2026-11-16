@@ -17,6 +17,7 @@ module Mermaid
       # Float#to_s digits, with the decimal point moved by the exponent.
       def decimal(value)
         return value.to_s if value.is_a?(Integer)
+        return '0' if value.zero?
 
         mantissa, exponent = value.to_s.split('e')
         whole, fraction = mantissa.split('.')

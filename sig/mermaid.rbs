@@ -46,8 +46,6 @@ module Mermaid
 
     class GanttRenderer < Renderer
       KEYWORDS: Array[String]
-      ID: Regexp
-      DATA: Regexp
     end
 
     class TimelineRenderer < Renderer
