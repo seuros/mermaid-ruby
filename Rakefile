@@ -1,8 +1,23 @@
 # frozen_string_literal: true
 
 require 'bundler/gem_tasks'
-require 'minitest/test_task'
+require 'rake/testtask'
+require 'shellwords'
 
-Minitest::TestTask.create
+Rake::TestTask.new(:minitest) do |t|
+  t.libs << 'test'
+  t.libs << 'lib'
+  t.test_files = FileList['test/**/*_test.rb']
+  t.verbose = true
+end
+
+desc 'Run the test suite (padded_cell on CRuby, plain Minitest elsewhere)'
+if RUBY_ENGINE == 'ruby'
+  task :test do
+    sh 'padded_cell', *Shellwords.split(ENV.fetch('TESTOPTS', ''))
+  end
+else
+  task test: :minitest
+end
 
 task default: :test

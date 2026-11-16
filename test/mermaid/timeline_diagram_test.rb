@@ -92,11 +92,3 @@ class TimelineDiagramStringTest < UnitTest
 end
 
 # Integration tests for timeline might be useful but skipped for now
-# class TimelineDiagramIntegrationTest < IntegrationTest
-#   def test_simple_timeline_renders
-#     diagram = Diagrams::TimelineDiagram.new(title: 'Simple Timeline')
-#     diagram.add_period(period_label: 'Event 1 Time', events: 'Event 1 Desc')
-#     mermaid_string = diagram.to_mermaid
-#     assert render_mermaid_and_check_errors(mermaid_string), "Simple timeline should render"
-#   end
-# end

@@ -59,31 +59,3 @@ class PieDiagramStringTest < UnitTest
     assert_equal expected.gsub(/\s+/, ' ').strip, diagram.to_mermaid.gsub(/\s+/, ' ').strip
   end
 end
-
-# class PieDiagramIntegrationTest < IntegrationTest
-#   # Tests that run in a headless browser
-#   # Temporarily commented out due to flakiness (Ferrum::PendingConnectionsError)
-#
-#   def test_simple_pie_renders
-#     slices = [
-#       Diagrams::Elements::Slice.new(label: 'Yes', value: 80),
-#       Diagrams::Elements::Slice.new(label: 'No', value: 20)
-#     ]
-#     diagram = Diagrams::PieDiagram.new(title: 'Survey Results', slices: slices)
-#     mermaid_string = diagram.to_mermaid
-#     assert render_mermaid_and_check_errors(mermaid_string), "Simple pie should render without errors"
-#   end
-#
-#   def test_pie_no_title_renders
-#      slices = [
-#       Diagrams::Elements::Slice.new(label: 'Alpha', value: 1),
-#       Diagrams::Elements::Slice.new(label: 'Beta', value: 2),
-#       Diagrams::Elements::Slice.new(label: 'Gamma', value: 3)
-#     ]
-#     diagram = Diagrams::PieDiagram.new(slices: slices)
-#     mermaid_string = diagram.to_mermaid
-#     assert render_mermaid_and_check_errors(mermaid_string), "Pie without title should render without errors"
-#   end
-# end
-# end
-# end

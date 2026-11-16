@@ -1,34 +1,26 @@
-name: Ruby
+name: CRuby (MRI)
 
 on:
   push:
-    branches:
-      - master
-
+    branches: [ master ]
   pull_request:
+    branches: [ master ]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
-    name: Ruby ${{ matrix.ruby }}
     strategy:
+      fail-fast: false
       matrix:
-        ruby:
-          - '3.3'
-          - '3.4'
+        ruby-version: ['4.0']
 
+    name: Ruby ${{ matrix.ruby-version }}
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: ${{ matrix.ruby }}
-        bundler-cache: true # Caches gems
-
-    - name: Install Google Chrome # Needed for Cuprite/Ferrum
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y google-chrome-stable
-
-    - name: Run tests # Changed name for clarity
-      run: bundle exec rake test # Ensure it runs tests, not just default rake task
+        ruby-version: ${{ matrix.ruby-version }}
+        bundler-cache: true
+    - name: Run tests
+      run: bundle exec rake test

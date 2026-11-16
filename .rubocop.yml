@@ -6,7 +6,7 @@ plugins:
   - rubocop-minitest # Moved from require
   - rubocop-rake     # Moved from require
 AllCops:
-  TargetRubyVersion: 3.3
+  TargetRubyVersion: 4.0
   NewCops: enable
 
 Style/Documentation:

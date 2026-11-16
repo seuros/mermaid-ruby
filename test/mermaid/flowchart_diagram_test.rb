@@ -62,32 +62,3 @@ class FlowchartDiagramStringTest < UnitTest
     assert_equal expected.gsub(/\s+/, ' ').strip, diagram.to_mermaid.gsub(/\s+/, ' ').strip
   end
 end
-
-# class FlowchartDiagramIntegrationTest < IntegrationTest
-#   # Tests that run in a headless browser
-#   # Temporarily commented out due to flakiness (Ferrum::PendingConnectionsError)
-#
-#   def test_simple_flowchart_renders
-#     nodes = [
-#       Diagrams::Elements::Node.new(id: 'a', label: 'Node A'),
-#       Diagrams::Elements::Node.new(id: 'b', label: 'Node B')
-#     ]
-#     edges = [Diagrams::Elements::Edge.new(source_id: 'a', target_id: 'b')]
-#     diagram = Diagrams::FlowchartDiagram.new(nodes: nodes, edges: edges)
-#     mermaid_string = diagram.to_mermaid
-#     assert render_mermaid_and_check_errors(mermaid_string), "Simple flowchart should render without errors"
-#   end
-#
-#   def test_labeled_edge_renders
-#     nodes = [
-#       Diagrams::Elements::Node.new(id: 'start', label: 'Start Here'),
-#       Diagrams::Elements::Node.new(id: 'end', label: 'End Here')
-#     ]
-#     edges = [Diagrams::Elements::Edge.new(source_id: 'start', target_id: 'end', label: 'Link Text')]
-#     diagram = Diagrams::FlowchartDiagram.new(nodes: nodes, edges: edges)
-#     mermaid_string = diagram.to_mermaid
-#     assert render_mermaid_and_check_errors(mermaid_string), "Flowchart with labeled edge should render without errors"
-#   end
-# end
-# end
-# end

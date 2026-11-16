@@ -77,13 +77,3 @@ class GitgraphDiagramStringTest < UnitTest
 end
 
 # Integration tests might be less critical for gitgraph unless specific rendering issues arise
-# class GitgraphDiagramIntegrationTest < IntegrationTest
-#   def test_basic_gitgraph_renders
-#     diagram = Diagrams::GitgraphDiagram.new
-#     diagram.commit(id: 'c1')
-#     diagram.branch(name: 'dev')
-#     diagram.commit(id: 'c2')
-#     mermaid_string = diagram.to_mermaid
-#     assert render_mermaid_and_check_errors(mermaid_string), "Basic gitgraph should render"
-#   end
-# end
