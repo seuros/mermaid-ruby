@@ -15,7 +15,9 @@ GEM
       json
       zeitwerk (>= 2.6)
     drb (2.2.3)
+    jar-dependencies (0.6.2-java)
     json (3.1.0)
+    json (3.1.0-java)
     language_server-protocol (3.17.0.6)
     lint_roller (1.1.0)
     logger (1.7.0)
@@ -27,6 +29,9 @@ GEM
       builder
       minitest (>= 5.0, < 7)
       ruby-progressbar
+    padded_cell (0.4.0)
+      minitest (~> 6.0)
+      rb_sys (~> 0.9.130)
     padded_cell (0.4.0-aarch64-linux-gnu)
       minitest (~> 6.0)
     padded_cell (0.4.0-aarch64-linux-musl)
@@ -53,9 +58,18 @@ GEM
     prism (2.1.0-x86_64-linux-gnu)
     prism (2.1.0-x86_64-linux-musl)
     racc (1.8.1)
+    racc (1.8.1-java)
     rainbow (3.1.1)
     rake (13.4.2)
+    rake-compiler-dock (1.12.0)
+    rb_sys (0.9.130)
+      rake-compiler-dock (= 1.12.0)
     rbs (4.2.0)
+      logger
+      prism (>= 1.6.0)
+      tsort
+    rbs (4.2.0-java)
+      jar-dependencies (>= 0.1.7)
       logger
       prism (>= 1.6.0)
       tsort
@@ -97,6 +111,8 @@ PLATFORMS
   aarch64-linux-musl
   amd64-freebsd-15
   arm64-darwin
+  ruby
+  universal-java
   x86_64-darwin
   x86_64-linux-gnu
   x86_64-linux-musl
