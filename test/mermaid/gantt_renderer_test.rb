@@ -13,6 +13,7 @@ class GanttRendererTest < Minitest::Test
     assert_mermaid <<~MERMAID, diagram
       gantt
         title Launch
+        dateFormat YYYY-MM-DD
         Kickoff :milestone, kick, 2026-01-05, 1d
         section Build
         Code :crit, code, after kick, 2w

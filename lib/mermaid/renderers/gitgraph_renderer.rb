@@ -31,7 +31,8 @@ module Mermaid
         when :branch then "branch #{quote(statement[:name])}#{" order: #{statement[:order]}" if statement[:order]}"
         when :checkout then "checkout #{quote(statement[:name])}"
         when :merge
-          "merge #{quote(statement[:branch])}#{option('id', statement[:id])}#{tags(statement)}#{type(statement[:type])}"
+          "merge #{quote(statement[:branch])}#{option('id', statement[:id])}#{tags(statement)}" \
+          "#{" type: #{statement[:type]}" if statement[:type]}"
         else # :cherry_pick
           "cherry-pick#{option('id', statement[:commit_id])}#{option('parent', statement[:parent])}#{tags(statement)}"
         end
@@ -41,6 +42,8 @@ module Mermaid
 
       def tags(statement) = statement.fetch(:tags, []).map { option('tag', it) }.join
 
+      # A commit's NORMAL type is Mermaid's default; a merge's explicit type is
+      # kept, since leaving it out draws the merge symbol instead.
       def type(type) = type.nil? || type == :NORMAL ? '' : " type: #{type}"
     end
   end

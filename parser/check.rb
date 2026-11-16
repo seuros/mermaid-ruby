@@ -23,7 +23,8 @@ module ParserCheck
     '1st', 'end', 'graph', 'flowchart', 'subgraph', 'style', 'classDef', 'class', 'click', 'call', 'direction',
     'state', 'note', 'as', 'root_start', 'root_end', 'title', 'section', 'commit', 'merge', 'branch',
     'checkout', 'cherry-pick', 'main', 'dateFormat', 'excludes', 'accTitle', 'o', 'x', 'default',
-    "x\0y", 'emoji😀', 'style:#;', 'classDef:#;'
+    "x\0y", 'emoji😀', 'style:#;', 'classDef:#;', '__proto__', 'constructor', 'hasOwnProperty', 'toString',
+    'valueOf', 'prototype'
   ].freeze
 
   # Mermaid's gitGraph commit types and class relations, from its docs.
@@ -56,7 +57,8 @@ module ParserCheck
 
   def cases
     [*empty_cases, *HOSTILE.each_with_index.flat_map { |text, index| hostile_cases(text, index) },
-     *identity_cases, *number_cases, *member_cases, *gantt_cases, *git_cases, *random_git_cases]
+     *identity_cases, *number_cases, *member_cases, *gantt_cases, *gantt_schedule_cases, *git_cases,
+     *random_git_cases]
   end
 
   def empty_cases = Diagrams::Base.subclasses.map { |type| build("empty #{type.type}") { type.new } }
@@ -203,9 +205,14 @@ module ParserCheck
     refused = [*%w[done active crit milestone vert].map { { id: it } }, { id: 'has space' }, { id: 'a,b' },
                { start: 'not-a-date' }, { start: ' 2026-01-01' }, { start: '2026-02-30' }, { start: 'active' },
                { start: 'after nope' }, { duration: 'bad' }, { duration: '1d ' }, { duration: '1d:2d' },
-               { duration: "1d\nx" }]
+               { duration: "1d\nx" }, { start: '1500-02-29' }, { id: '__proto__' }, { id: 'constructor' },
+               { start: 'after toString' }, { duration: '999999999999999d' }, { duration: "#{'9' * 400}d" },
+               { duration: '8000y' }, { start: '9999-12-31', duration: '1d' }]
     accepted = [{ id: 'task-1_b' }, { start: 'after first' }, { duration: 'until first' },
-                { duration: '2026-02-01' }, { duration: '1.5h' }, { duration: '250ms' }, { duration: '3M' }]
+                { duration: '2026-02-01' }, { duration: '1.5h' }, { duration: '250ms' }, { duration: '3M' },
+                { start: '1582-10-10' }, { start: '0000-01-01' }, { start: '2024-02-29', duration: '1y' },
+                { duration: '0.5d' }, { duration: '2.5d' }, { duration: '1.25h' }, { duration: '0.0001ms' },
+                { duration: '13M' }, { start: 'after first', duration: '3w' }, { duration: '0000000000000001d' }]
     [*refused.map { |task| [task, true] }, *accepted.map { |task| [task, false] }].map.with_index do |(task, refuse), i|
       build("gantt task #{i} #{task.inspect}", refuse:) do
         Diagrams::GanttDiagram.new.tap do |d|
@@ -214,6 +221,21 @@ module ParserCheck
         end
       end
     end
+  end
+
+  # Named, so the negative controls can find them.
+  def gantt_schedule_cases
+    [
+      build('gantt month clamp') do
+        Diagrams::GanttDiagram.new.tap { it.add_task(id: 'a', label: 'A', start: '2026-01-31', duration: '1M') }
+      end,
+      build('gantt day rounding') do
+        Diagrams::GanttDiagram.new.tap do |d|
+          d.add_task(id: 'a', label: 'A', start: '2026-03-01', duration: '1.5d')
+          d.add_task(id: 'b', label: 'B', start: 'after a', duration: 'until a')
+        end
+      end
+    ]
   end
 
   def git_cases
@@ -236,6 +258,17 @@ module ParserCheck
           d.commit(id: 'A')
           d.merge(branch: 'early')
         end
+      end,
+      build('git merge with a normal type') { git_history { it.merge(branch: 'feature', id: 'M', type: :NORMAL) } },
+      build('git lane order at 2**53') do
+        Diagrams::GitgraphDiagram.new.tap do |d|
+          d.commit(id: 'A')
+          d.branch(name: 'high', order: 2**53)
+          d.branch(name: 'low', order: (2**53) - 1)
+        end
+      end,
+      build('git lane order past 2**53', refuse: true) do
+        Diagrams::GitgraphDiagram.new.tap { |d| d.branch(name: 'x', order: (2**53) + 1) }
       end,
       build('git main branch name') { git_main('trunk') },
       build('git main branch with space') { git_main('main line') },
@@ -349,10 +382,12 @@ module ParserCheck
       end }
   end
 
+  # Each task's start and end as Mermaid evaluates them, in UTC milliseconds.
   def gantt_facts(diagram)
+    times = diagram.schedule.transform_values { |range| [range.begin, range.end].map { (it.to_r * 1000).to_i } }
     { 'sections' => diagram.sections.filter_map(&:title),
       'tasks' => diagram.sections.flat_map do |section|
-        section.tasks.map { [section.title.to_s, it.label, it.id, it.status&.to_s, it.start, it.duration] }
+        section.tasks.map { [section.title.to_s, it.label, it.id, it.status&.to_s, *times.fetch(it.id)] }
       end }
   end
 
@@ -420,8 +455,35 @@ module ParserCheck
     'git 0 "plain"' => ->(text) { text.sub('type: REVERSE', 'type: HIGHLIGHT') },
     'git pick with tags' => ->(text) { text.sub(' tag: "v2"', '') },
     'git pick of a merge' => ->(text) { text.sub('parent: "C"', 'parent: "B"') },
-    'git 1 "has space"' => ->(text) { text.sub(' order: 2', '') }
+    'git 1 "has space"' => ->(text) { text.sub(' order: 2', '') },
+    'git merge with a normal type' => ->(text) { text.sub(' type: NORMAL', '') },
+    'gantt month clamp' => ->(text) { text.sub('2026-01-31', '2026-01-30') },
+    'gantt day rounding' => ->(text) { text.sub('1.5d', '1d') },
+    'git lane order at 2**53' => ->(text) { text.sub('order: 9007199254740991', 'order: 9007199254740993') }
   }.freeze
+
+  # Where the model deliberately refuses what Mermaid accepts: Mermaid must
+  # still parse the program, and the model must refuse it.
+  EXPECTED_DIFFERENCES = {
+    'duplicate commit id (Mermaid overwrites the earlier commit)' => [
+      "gitGraph\n  commit id: \"A\"\n  commit id: \"A\"",
+      -> { Diagrams::GitgraphDiagram.new.tap { it.commit(id: 'A') }.commit(id: 'A') }
+    ]
+  }.freeze
+
+  def differences(problems)
+    results = parse(EXPECTED_DIFFERENCES.map { |name, (text, _)| { name:, text: } })
+    EXPECTED_DIFFERENCES.zip(results).each do |(name, (_, ruby)), result|
+      problems << "#{name}: Mermaid no longer accepts it: #{result['error']}" unless result['parsed']
+      begin
+        ruby.call
+        problems << "#{name}: the model no longer refuses it"
+      rescue ArgumentError
+        nil
+      end
+    end
+    EXPECTED_DIFFERENCES.size
+  end
 
   def run
     cases = self.cases
@@ -430,8 +492,10 @@ module ParserCheck
     rendered.zip(results).each { |(c, text), result| problems.concat(compare(c, text, result)) }
     problems.concat(round_trips(rendered))
     mutants = mutate(rendered, problems)
+    known = differences(problems)
     puts "#{cases.size} cases: #{rendered.size} parsed by Mermaid and round-tripped, " \
-         "#{cases.size - rendered.size} refused as expected; #{mutants} mutants rejected"
+         "#{cases.size - rendered.size} refused as expected; #{mutants} mutants rejected; " \
+         "#{known} expected difference from Mermaid confirmed"
     abort problems.join("\n\n") if problems.any?
   end
 
@@ -491,7 +555,7 @@ module ParserCheck
       input = File.join(dir, 'cases.json')
       output = File.join(dir, 'results.json')
       File.write(input, JSON.generate(cases))
-      out, status = Open3.capture2e('node', File.join(__dir__, 'parse.mjs'), input, output)
+      out, status = Open3.capture2e({ 'TZ' => 'UTC' }, 'node', File.join(__dir__, 'parse.mjs'), input, output)
       abort "parse.mjs failed:\n#{out}" unless status.success?
       JSON.parse(File.read(output))
     end

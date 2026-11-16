@@ -127,8 +127,12 @@ raises `TypeError`.
 `rake parse` renders a battery of diagrams, hostile text included, parses each
 with Mermaid's own parser (Node; `npm ci --prefix parser` first) and checks
 that Mermaid reads back the same model: which node is which, labels, links and
-their kind, values, commits and lanes. Every case also round-trips through
-JSON, and negative controls (mutated output) must be rejected.
+their kind, values, commits and lanes, and the start and end Mermaid computes
+for every Gantt task (Gantt output declares `dateFormat YYYY-MM-DD`, without
+which Mermaid ignores end dates). Every case also round-trips through JSON,
+negative controls (mutated output) must be rejected, and the one deliberate
+difference (a duplicate commit id, which Mermaid overwrites and the diagram
+gem refuses) is confirmed on both sides.
 
 ## Development
 

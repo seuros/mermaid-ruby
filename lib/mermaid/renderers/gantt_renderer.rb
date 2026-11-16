@@ -14,10 +14,13 @@ module Mermaid
 
       private
 
+      # Mermaid parses YYYY-MM-DD dates only once the format is declared;
+      # without it, end dates silently collapse to the start.
       def body
-        diagram.sections.flat_map do |section|
+        tasks = diagram.sections.flat_map do |section|
           [*("section #{text(section.title)}" if section.title), *section.tasks.map { task(it) }]
         end
+        ['dateFormat YYYY-MM-DD', *tasks]
       end
 
       def task(task)

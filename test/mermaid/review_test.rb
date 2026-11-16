@@ -99,7 +99,7 @@ class ReviewTest < Minitest::Test
     diagram = Diagrams::GanttDiagram.new
     diagram.add_task(id: 't', label: 'title case', start: '2026-01-01', duration: '1d')
 
-    assert_mermaid "gantt\n  #116;itle case :t, 2026-01-01, 1d", diagram
+    assert_mermaid "gantt\n  dateFormat YYYY-MM-DD\n  #116;itle case :t, 2026-01-01, 1d", diagram
   end
 
   # 3: a cherry-pick renders as Mermaid's cherry-pick of its source. Mermaid

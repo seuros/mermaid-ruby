@@ -1,4 +1,5 @@
 // Parses Mermaid text with Mermaid's own parser and reports what it understood.
+// Run it with TZ=UTC: Gantt times are evaluated in the local zone.
 //
 //   node parser/parse.mjs cases.json results.json
 //
@@ -71,7 +72,7 @@ const facts = {
       tasks: db.getTasks().map(task => [
         text(task.section), text(task.task), task.id,
         ['done', 'active', 'crit', 'milestone'].find(status => task[status]) ?? null,
-        text(task.raw.startTime?.startData ?? ''), text(task.raw.endTime?.data ?? '')
+        task.startTime.getTime(), task.endTime.getTime()
       ])
     };
   },
