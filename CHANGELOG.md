@@ -1,5 +1,26 @@
 ## [Unreleased]
 
+## [0.1.0](https://github.com/seuros/mermaid-ruby/compare/mermaid/v0.0.6...mermaid/v0.1.0) (2026-11-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* one renderer per diagram type, valid Mermaid 11 output
+
+### Features
+
+* one renderer per diagram type, valid Mermaid 11 output ([0f97cdb](https://github.com/seuros/mermaid-ruby/commit/0f97cdbea415c7485df267fc6abfe870001dad1d))
+
+
+### Bug Fixes
+
+* check the gantt year 0100 floor against Mermaid ([680ca93](https://github.com/seuros/mermaid-ruby/commit/680ca93b7891ba31bc7b01523905d7957d60420a))
+* keep explicit merge types, declare the gantt date format; check evaluated dates ([c48bc04](https://github.com/seuros/mermaid-ruby/commit/c48bc04942fcc8be4d377fc1d8be5e7d12cbd91d))
+* lock for JRuby and the public npm registry ([b86107b](https://github.com/seuros/mermaid-ruby/commit/b86107b3ee7564d3389d07559a0344fc97f66504))
+* parser check uses js-yaml 4.3.2 ([5dbfca4](https://github.com/seuros/mermaid-ruby/commit/5dbfca43e7fa0683f031b7fa1cd83430362e3e4b))
+* render the gitGraph program, cherry-picks included; stronger parse check ([78bc1a0](https://github.com/seuros/mermaid-ruby/commit/78bc1a0a5449531cdbcc4c20fd3002d582483394))
+* text stays text, ids are aliased, output checked by Mermaid's parser ([0fbbf5f](https://github.com/seuros/mermaid-ruby/commit/0fbbf5fe2fe3b63c33742b739601a55eaa1539df))
+
 ## [0.0.6](https://github.com/seuros/mermaid-ruby/compare/mermaid/v0.0.5...mermaid/v0.0.6) (2025-08-14)
 
 
