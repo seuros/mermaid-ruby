@@ -3,6 +3,8 @@
     ".": {
       "release-type": "ruby",
       "package-name": "mermaid",
+      "version-file": "lib/mermaid/version.rb",
+      "bump-minor-pre-major": true,
       "bump-patch-for-minor-pre-major": true
     }
   }

@@ -1,0 +1,53 @@
+module Mermaid
+  VERSION: String
+
+  module ToMermaid
+    def to_mermaid: () -> String
+  end
+
+  class Renderer
+    def self.render: (Diagrams::Base diagram) -> String
+    def self.registry: () -> Hash[Class, singleton(Renderer)]
+
+    def initialize: (Diagrams::Base diagram) -> void
+    def render: () -> String
+  end
+
+  module InlineTitle
+  end
+
+  module Renderers
+    class FlowchartRenderer < Renderer
+    end
+
+    class StateRenderer < Renderer
+    end
+
+    class ClassRenderer < Renderer
+      ARROWS: Hash[Symbol, String]
+    end
+
+    class ERRenderer < Renderer
+      LEFT: Hash[Symbol, String]
+      RIGHT: Hash[Symbol, String]
+    end
+
+    class PieRenderer < Renderer
+    end
+
+    class GanttRenderer < Renderer
+    end
+
+    class TimelineRenderer < Renderer
+    end
+
+    class GitgraphRenderer < Renderer
+    end
+  end
+end
+
+module Diagrams
+  class Base
+    include Mermaid::ToMermaid
+  end
+end

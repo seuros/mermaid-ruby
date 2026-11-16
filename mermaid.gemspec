@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.authors = ['Abdelkader Boudih']
   spec.email = ['terminale@gmail.com']
 
-  spec.summary = 'Generate Diagrams and Flowcharts with Mermaid'
+  spec.summary = 'Mermaid text for the diagrams of the diagram gem'
   spec.description = spec.summary
   spec.homepage = 'https://github.com/seuros/mermaid-ruby'
   spec.license = 'MIT'
@@ -21,15 +21,15 @@ Gem::Specification.new do |spec|
   spec.files = Dir.glob('{sig,lib}/**/*') + %w[CHANGELOG.md LICENSE.txt README.md Rakefile]
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'diagram', '>= 0.3.4'
+  spec.add_dependency 'diagram', '>= 0.4'
   spec.add_dependency 'zeitwerk'
   spec.metadata['rubygems_mfa_required'] = 'true'
   # Development Dependencies
   spec.add_development_dependency 'minitest', '~> 6.0'
   spec.add_development_dependency 'minitest-reporters'
+  spec.add_development_dependency 'rbs'
   spec.add_development_dependency 'rubocop', '~> 1.59'
   spec.add_development_dependency 'rubocop-minitest', '~> 0.34'
   spec.add_development_dependency 'rubocop-performance', '~> 1.20'
   spec.add_development_dependency 'rubocop-rake', '~> 0.6'
-  spec.add_development_dependency 'steep'
 end

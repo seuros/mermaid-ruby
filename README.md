@@ -1,139 +1,106 @@
-# Mermaid Ruby
+# mermaid
 
 [![Gem Version](https://badge.fury.io/rb/mermaid.svg)](https://badge.fury.io/rb/mermaid)
-[![Build Status](https://github.com/seuros/mermaid-ruby/actions/workflows/ci.yml/badge.svg)](https://github.com/seuros/mermaid-ruby/actions/workflows/ci.yml)
 
-This gem provides Mermaid syntax generation capabilities for diagram objects created using the [`diagram`](https://github.com/seuros/diagram-ruby) gem.
+[Mermaid](https://mermaid.js.org) text for the diagrams of the
+[diagram](https://github.com/seuros/diagram-ruby) gem. Requiring it gives
+every diagram a `to_mermaid` method; the diagrams themselves stay plain data.
 
-It achieves this by adding renderer to the `diagram` gem (like `Diagrams::ClassDiagram`, `Diagrams::StateDiagram`, etc.) to add a `#to_mermaid` instance method.
+Supported: flowchart, state, class, ER, Gantt, pie, timeline and git graph.
+Ruby 4.0+.
 
 ## Installation
 
-Add these lines to your application's Gemfile:
-
 ```ruby
-gem 'diagram' # The base gem for creating diagram objects
-gem 'mermaid' # This gem, for generating Mermaid syntax
-```
-
-And then execute:
-
-```bash
-$ bundle install
-```
-
-Or install it yourself as:
-
-```bash
-$ gem install diagram mermaid
+gem 'mermaid'
 ```
 
 ## Usage
 
-Simply require the `mermaid` gem after requiring `diagrams`. This will automatically add the `#to_mermaid` method to the diagram classes.
+```ruby
+require 'mermaid'
+
+door = Diagrams::StateDiagram.new(title: 'Door')
+door.add_state(id: 'closed')
+door.add_state(id: 'open', label: 'Open')
+door.add_transition(source_state_id: '*', target_state_id: 'closed')
+door.add_transition(source_state_id: 'closed', target_state_id: 'open', label: 'push', guard: 'unlocked')
+
+puts door.to_mermaid
+# ---
+# title: "Door"
+# ---
+# stateDiagram-v2
+#   closed
+#   open : Open
+#   [*] --> closed
+#   closed --> open : push [unlocked]
+```
+
+A title goes to the YAML front matter, except for pie, Gantt and timeline
+diagrams, which have a `title` statement of their own:
 
 ```ruby
-require 'diagrams'
-require 'mermaid' # This applies the patches
+pets = Diagrams::PieDiagram.new(title: 'Pets')
+pets.add_slice(label: 'Dogs', value: 3)
+pets.add_slice(label: 'Cats', value: 1.5)
 
-# --- Example: State Diagram ---
-state_a = Diagrams::Elements::State.new(id: 'A', label: 'State A')
-state_b = Diagrams::Elements::State.new(id: 'B')
-transition1 = Diagrams::Elements::Transition.new(source_state_id: '*', target_state_id: 'A')
-transition2 = Diagrams::Elements::Transition.new(source_state_id: 'A', target_state_id: 'B', label: 'Event X')
-
-state_diagram = Diagrams::StateDiagram.new(
-  states: [state_a, state_b],
-  transitions: [transition1, transition2]
-)
-
-puts state_diagram.to_mermaid
-# Output:
-# stateDiagram-v2
-#   A : State A
-#   [*] --> A
-#   A --> B : Event X
-
-# --- Example: Class Diagram ---
-class_animal = Diagrams::Elements::ClassEntity.new(name: 'Animal', attributes: ['+String name'])
-class_dog = Diagrams::Elements::ClassEntity.new(name: 'Dog', attributes: ['+String breed'], methods: ['+bark() void'])
-rel_inheritance = Diagrams::Elements::Relationship.new(
-  source_class_name: 'Dog',
-  target_class_name: 'Animal',
-  type: 'inheritance'
-)
-
-class_diagram = Diagrams::ClassDiagram.new(
-  classes: [class_animal, class_dog],
-  relationships: [rel_inheritance]
-)
-
-puts class_diagram.to_mermaid
-# Output:
-# classDiagram
-# class Animal {
-#   +String name
-# }
-# class Dog {
-#   +String breed
-#   +bark() void
-# }
-# Dog <|-- Animal
-
-# --- Example: Flowchart ---
-node1 = Diagrams::Elements::Node.new(id: 'n1', label: 'Start')
-node2 = Diagrams::Elements::Node.new(id: 'n2', label: 'Process')
-edge1 = Diagrams::Elements::Edge.new(source_id: 'n1', target_id: 'n2', label: 'Go')
-
-flowchart = Diagrams::FlowchartDiagram.new(nodes: [node1, node2], edges: [edge1])
-
-puts flowchart.to_mermaid
-# Output:
-# graph TD
-#   n1["Start"]
-#   n2["Process"]
-#   n1 -- "Go" --> n2
-
-# --- Example: Pie Chart ---
-slice1 = Diagrams::Elements::Slice.new(label: 'Work', value: 8)
-slice2 = Diagrams::Elements::Slice.new(label: 'Sleep', value: 8)
-slice3 = Diagrams::Elements::Slice.new(label: 'Play', value: 8)
-
-pie_chart = Diagrams::PieDiagram.new(title: 'Daily Routine', slices: [slice1, slice2, slice3])
-
-puts pie_chart.to_mermaid
-# Output:
+puts pets.to_mermaid
 # pie
-# title Daily Routine
-# "Work" : 8
-# "Sleep" : 8
-# "Play" : 8
-
-# --- Example: Gantt Chart ---
-gantt_chart = Diagrams::GanttDiagram.new(title: 'Project Timeline')
-gantt_chart.add_task(id: 't1', label: 'Phase 1', start: '2024-01-01', duration: '10d')
-gantt_chart.add_task(id: 't2', label: 'Phase 2', start: '2024-01-11', duration: '10d')
-
-puts gantt_chart.to_mermaid
-# Output:
-# gantt
-# title Project Timeline
-# section Default Section
-# Phase 1 :t1, 2024-01-01, 10d
-# Phase 2 :t2, 2024-01-11, 10d
-
+#   title Pets
+#   "Dogs" : 3
+#   "Cats" : 1.5
 ```
+
+ER attributes render their keys the Mermaid way (`int id PK, FK`), and a
+relationship is drawn solid only when it is identifying:
+
+```ruby
+shop = Diagrams::ERDiagram.new
+shop.add_entity(name: 'CUSTOMER', attributes: [{ type: 'int', name: 'id', keys: [:PK] }])
+shop.add_entity(name: 'ORDER')
+shop.add_relationship(entity1: 'CUSTOMER', entity2: 'ORDER',
+                      cardinality1: :ONE_ONLY, cardinality2: :ZERO_OR_MORE, label: 'places')
+
+puts shop.to_mermaid
+# erDiagram
+#   "CUSTOMER" {
+#     int id PK
+#   }
+#   "ORDER"
+#   "CUSTOMER" ||..o{ "ORDER" : "places"
+```
+
+A git graph replays its history. Mermaid opens a branch at the head of the
+checked-out branch, so each branch is opened right after its start commit:
+
+```ruby
+git = Diagrams::GitgraphDiagram.new
+git.commit(id: 'init')
+git.branch(name: 'feature')
+git.commit(id: 'work')
+git.checkout(name: 'main')
+git.merge(from_branch_name: 'feature', id: 'merge', tag: 'v1')
+
+puts git.to_mermaid
+# gitGraph
+#   commit id: "init"
+#   branch feature
+#   commit id: "work"
+#   checkout main
+#   merge feature id: "merge" tag: "v1"
+```
+
+Rendering a diagram class that has no renderer raises `TypeError`.
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `bundle exec rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `lib/mermaid/version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
-
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/seuros/mermaid-ruby.
+```bash
+bundle install
+bundle exec rake        # tests (padded_cell on CRuby), RuboCop, RBS
+bundle exec rake minitest
+```
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+MIT.

@@ -1,35 +1,17 @@
 # frozen_string_literal: true
 
+require 'diagram'
+require 'zeitwerk'
 require_relative 'mermaid/version'
-require 'diagrams'
 
 loader = Zeitwerk::Loader.for_gem
-loader.inflector.inflect(
-  'er_diagram_renderer' => 'ERDiagramRenderer',
-  'erd_entity_renderer' => 'ERDEntityRenderer',
-  'erd_relationship_renderer' => 'ERDRelationshipRenderer'
-)
+loader.inflector.inflect('er_renderer' => 'ERRenderer')
 loader.setup
+# Renderers register themselves for their diagram class as they load.
 loader.eager_load
 
-module Diagrams
-  StateDiagram.prepend(Mermaid::StateDiagramRenderer)
-  ClassDiagram.prepend(Mermaid::ClassDiagramRenderer)
-  FlowchartDiagram.prepend(Mermaid::FlowchartDiagramRenderer)
-  PieDiagram.prepend(Mermaid::PieDiagramRenderer)
-  GanttDiagram.prepend(Mermaid::GanttDiagramRenderer)
-  GitgraphDiagram.prepend(Mermaid::GitgraphDiagramRenderer)
-  TimelineDiagram.prepend(Mermaid::TimelineDiagramRenderer)
-  ERDiagram.prepend(Mermaid::ERDiagramRenderer)
-  module Elements
-    State.prepend(Mermaid::ElementRenderers::StateRenderer)
-    Transition.prepend(Mermaid::ElementRenderers::TransitionRenderer)
-    Relationship.prepend(Mermaid::ElementRenderers::RelationshipRenderer)
-    Node.prepend(Mermaid::ElementRenderers::NodeRenderer)
-    Edge.prepend(Mermaid::ElementRenderers::EdgeRenderer)
-    Slice.prepend(Mermaid::ElementRenderers::SliceRenderer)
-    Task.prepend(Mermaid::ElementRenderers::TaskRenderer)
-    ERDEntity.prepend(Mermaid::ElementRenderers::ERDEntityRenderer) # Prepend ERD element renderers
-    ERDRelationship.prepend(Mermaid::ElementRenderers::ERDRelationshipRenderer)
-  end
+# Mermaid text for the diagrams of the diagram gem: diagram.to_mermaid.
+module Mermaid
 end
+
+Diagrams::Base.include(Mermaid::ToMermaid)

@@ -11,6 +11,8 @@ Rake::TestTask.new(:minitest) do |t|
   t.verbose = true
 end
 
+# Both branches define :test, once per engine.
+# rubocop:disable Rake/DuplicateTask
 desc 'Run the test suite (padded_cell on CRuby, plain Minitest elsewhere)'
 if RUBY_ENGINE == 'ruby'
   task :test do
@@ -19,5 +21,15 @@ if RUBY_ENGINE == 'ruby'
 else
   task test: :minitest
 end
+# rubocop:enable Rake/DuplicateTask
 
-task default: :test
+require 'rubocop/rake_task'
+
+RuboCop::RakeTask.new
+
+desc 'Validate the RBS signatures in sig/ against the diagram gem'
+task :rbs do
+  sh 'rbs', '-I', 'sig', '-I', File.join(Gem.loaded_specs.fetch('diagram').full_gem_path, 'sig'), 'validate'
+end
+
+task default: %i[test rubocop rbs]

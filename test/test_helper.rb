@@ -6,6 +6,11 @@ Minitest::Reporters.use! [Minitest::Reporters::DefaultReporter.new(color: true)]
 
 require 'mermaid'
 
-# Base test class for standard unit tests
-class UnitTest < Minitest::Test
+# Assertions shared by the renderer tests.
+module MermaidAssertions
+  def assert_mermaid(expected, diagram)
+    assert_equal expected.chomp, diagram.to_mermaid
+  end
 end
+
+Minitest::Test.include(MermaidAssertions)
