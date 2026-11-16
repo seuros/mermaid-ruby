@@ -207,10 +207,13 @@ module ParserCheck
                { start: 'after nope' }, { duration: 'bad' }, { duration: '1d ' }, { duration: '1d:2d' },
                { duration: "1d\nx" }, { start: '1500-02-29' }, { id: '__proto__' }, { id: 'constructor' },
                { start: 'after toString' }, { duration: '999999999999999d' }, { duration: "#{'9' * 400}d" },
-               { duration: '8000y' }, { start: '9999-12-31', duration: '1d' }]
+               { duration: '8000y' }, { start: '9999-12-31', duration: '1d' }, { start: '0099-12-31' },
+               { start: '0000-01-31', duration: '1M' }, { start: '0000-02-29', duration: '0M' },
+               { start: '0100-01-01', duration: '0099-12-31' },
+               *%w[0000 0001 0004 0099].map { { start: "#{it}-01-01", duration: "#{it}-02-01" } }]
     accepted = [{ id: 'task-1_b' }, { start: 'after first' }, { duration: 'until first' },
                 { duration: '2026-02-01' }, { duration: '1.5h' }, { duration: '250ms' }, { duration: '3M' },
-                { start: '1582-10-10' }, { start: '0000-01-01' }, { start: '2024-02-29', duration: '1y' },
+                { start: '1582-10-10' }, { start: '0100-01-01' }, { start: '2024-02-29', duration: '1y' },
                 { duration: '0.5d' }, { duration: '2.5d' }, { duration: '1.25h' }, { duration: '0.0001ms' },
                 { duration: '13M' }, { start: 'after first', duration: '3w' }, { duration: '0000000000000001d' }]
     [*refused.map { |task| [task, true] }, *accepted.map { |task| [task, false] }].map.with_index do |(task, refuse), i|
@@ -228,6 +231,16 @@ module ParserCheck
     [
       build('gantt month clamp') do
         Diagrams::GanttDiagram.new.tap { it.add_task(id: 'a', label: 'A', start: '2026-01-31', duration: '1M') }
+      end,
+      build('gantt year 0100') do
+        Diagrams::GanttDiagram.new.tap do |d|
+          d.add_task(id: 'a', label: 'A', start: '0100-01-01', duration: '0100-02-01')
+          d.add_task(id: 'b', label: 'B', start: '0100-01-31', duration: '1M')
+          d.add_task(id: 'c', label: 'C', start: 'after a', duration: '1d')
+          d.add_task(id: 'd', label: 'D', start: 'after c', duration: 'until a')
+          d.add_task(id: 'e', label: 'E', start: '0104-02-29', duration: '1y')
+          d.add_task(id: 'f', label: 'F', start: '0100-02-28', duration: '0M')
+        end
       end,
       build('gantt day rounding') do
         Diagrams::GanttDiagram.new.tap do |d|
@@ -459,6 +472,7 @@ module ParserCheck
     'git merge with a normal type' => ->(text) { text.sub(' type: NORMAL', '') },
     'gantt month clamp' => ->(text) { text.sub('2026-01-31', '2026-01-30') },
     'gantt day rounding' => ->(text) { text.sub('1.5d', '1d') },
+    'gantt year 0100' => ->(text) { text.sub(', 0100-02-01', ', 0100-01-01') },
     'git lane order at 2**53' => ->(text) { text.sub('order: 9007199254740991', 'order: 9007199254740993') }
   }.freeze
 
